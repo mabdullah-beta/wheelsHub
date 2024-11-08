@@ -1,25 +1,28 @@
-// src/components/CarCard.js
-
 import React from "react";
 import { Box, Card, IconButton, Typography, Chip, Button } from "@mui/joy";
 import { Heart, Car } from "lucide-react";
+import { ReactComponent as Transmission } from "../../assets/Transmission.svg";
 
 const CarCard = ({ carData, onLikeToggle }) => {
   const handleLikeToggle = () => {
     onLikeToggle(carData.id); // Assuming this function updates the state
   };
+
   return (
     <Card variant="outlined">
-      <Box sx={{ position: "relative" }}>
+      {/* First row: Car name and heart icon */}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ p: 2 }}
+      >
+        <Typography level="h4">{carData.name}</Typography>
         <IconButton
           size="sm"
           variant="soft"
           onClick={handleLikeToggle}
           sx={{
-            position: "absolute",
-            top: 0,
-            right: 8,
-            zIndex: 1,
             bgcolor: "transparent",
             "&:hover": {
               bgcolor: "transparent",
@@ -30,7 +33,9 @@ const CarCard = ({ carData, onLikeToggle }) => {
           <Heart fill={carData.liked ? "currentColor" : "none"} />
         </IconButton>
       </Box>
-      <Box display={"flex"} sx={{ position: "relative", p: 2 }}>
+
+      {/* Second row: Car image with gradient */}
+      <Box sx={{ position: "relative", display: "flex" }}>
         <img
           src={carData.image}
           alt={carData.name}
@@ -45,7 +50,7 @@ const CarCard = ({ carData, onLikeToggle }) => {
         <Box
           sx={{
             position: "absolute",
-            bottom: 35,
+            bottom: 23,
             left: "50%",
             transform: "translateX(-50%)",
             width: "80%",
@@ -56,29 +61,44 @@ const CarCard = ({ carData, onLikeToggle }) => {
           }}
         />
       </Box>
-      <Box sx={{ p: 2 }}>
-        <Typography level="h6">{carData.name}</Typography>
-        <Typography level="body2" sx={{ mb: 1 }}>
-          2023
-        </Typography>
-        <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
-          <Chip size="sm" variant="soft">
-            <Car size={14} /> Manual
-          </Chip>
-          <Chip size="sm" variant="soft">
-            Petrol
-          </Chip>
-        </Box>
-        <Box
+
+      {/* Third row: Car details - fuel, people capacity, and transmission */}
+      <Box sx={{ display: "flex", gap: 2, justifyContent: "space-between" }}>
+        <Chip
           sx={{
             display: "flex",
-            justifyContent: "space-between",
             alignItems: "center",
+            gap: 1,
+            bgcolor: "transparent",
           }}
+          size="md"
+          variant="soft"
         >
-          <Typography level="h6">${carData.price.toLocaleString()}</Typography>
-          <Button size="sm">Buy Now</Button>
-        </Box>
+          <Transmission
+            style={{ width: 20, height: 20, verticalAlign: "middle" }}
+          />
+
+          {carData.transmission}
+        </Chip>
+        <Chip size="md" variant="soft" sx={{ bgcolor: "transparent" }}>
+          {carData.fuelType}
+        </Chip>
+        <Chip size="md" variant="soft" sx={{ bgcolor: "transparent" }}>
+          {carData.seatingCapacity} Seats
+        </Chip>
+      </Box>
+
+      {/* Fourth row: Price and Buy Now button */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          p: 2,
+        }}
+      >
+        <Typography level="h4">${carData.price.toLocaleString()}</Typography>
+        <Button size="sm">Buy Now</Button>
       </Box>
     </Card>
   );

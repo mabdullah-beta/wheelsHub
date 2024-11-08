@@ -7,19 +7,90 @@ import PromotionalCard from "../components/Home/PromotionalCard";
 
 const Home = () => {
   const initialPopularCars = [
-    { id: 1, name: "Koenigsegg", price: 88666, image: car, liked: true },
-    { id: 2, name: "Nissan GT-R", price: 99100, image: car, liked: false },
-    { id: 3, name: "Rolls-Royce", price: 43000, image: car, liked: true },
-    { id: 4, name: "Nissan GT-R", price: 22000, image: car, liked: false },
+    {
+      id: 1,
+      name: "Koenigsegg",
+      price: 88666,
+      image: car,
+      liked: true,
+      fuelType: "Petrol",
+      seatingCapacity: 2,
+      transmission: "Manual",
+    },
+    {
+      id: 2,
+      name: "Nissan GT-R",
+      price: 99100,
+      image: car,
+      liked: false,
+      fuelType: "Petrol",
+      seatingCapacity: 4,
+      transmission: "Automatic",
+    },
+    {
+      id: 3,
+      name: "Rolls-Royce",
+      price: 43000,
+      image: car,
+      liked: true,
+      fuelType: "Diesel",
+      seatingCapacity: 5,
+      transmission: "Automatic",
+    },
+    {
+      id: 4,
+      name: "Nissan GT-R",
+      price: 22000,
+      image: car,
+      liked: false,
+      fuelType: "Petrol",
+      seatingCapacity: 4,
+      transmission: "Manual",
+    },
   ];
 
   const initialRecommendedCars = [
-    { id: 5, name: "All-New Rush", price: 72000, image: car, liked: false },
-    { id: 6, name: "CR-V", price: 33000, image: car, liked: true },
-    { id: 7, name: "All-New Terios", price: 31000, image: car, liked: false },
-    { id: 8, name: "CR-V", price: 13000, image: car, liked: true },
+    {
+      id: 5,
+      name: "All-New Rush",
+      price: 72000,
+      image: car,
+      liked: false,
+      fuelType: "Diesel",
+      seatingCapacity: 5,
+      transmission: "Automatic",
+    },
+    {
+      id: 6,
+      name: "CR-V",
+      price: 33000,
+      image: car,
+      liked: true,
+      fuelType: "Petrol",
+      seatingCapacity: 5,
+      transmission: "Automatic",
+    },
+    {
+      id: 7,
+      name: "All-New Terios",
+      price: 31000,
+      image: car,
+      liked: false,
+      fuelType: "Petrol",
+      seatingCapacity: 7,
+      transmission: "Manual",
+    },
+    {
+      id: 8,
+      name: "CR-V",
+      price: 13000,
+      image: car,
+      liked: true,
+      fuelType: "Diesel",
+      seatingCapacity: 5,
+      transmission: "Automatic",
+    },
   ];
-
   // Use state to manage popular and recommended cars
   const [popularCars, setPopularCars] = useState(initialPopularCars);
   const [recommendedCars, setRecommendedCars] = useState(
