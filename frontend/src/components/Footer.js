@@ -36,7 +36,7 @@ const Footer = () => {
   return (
     <Box
       sx={{
-        padding: { xs: "10px 20px", md: "10px 60px" },
+        padding: { xs: "30px 20px", md: "30px 60px" },
         bgcolor: "#FFFFFF",
       }}
     >
