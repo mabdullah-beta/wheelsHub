@@ -8,7 +8,7 @@ const PageWrapper = ({ children }) => {
       sx={{
         maxWidth: "100%",
         mx: "auto",
-        padding: { xs: "10px 20px", md: "10px 100px" },
+        padding: { xs: "10px 20px", md: "10px 60px" },
         bgcolor: "#F6F7F9",
       }}
     >

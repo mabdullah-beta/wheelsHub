@@ -23,7 +23,7 @@ const Header = () => {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: { xs: "10px 20px", md: "10px 100px" },
+        padding: { xs: "10px 20px", md: "10px 60px" },
         boxShadow: "md",
       }}
     >

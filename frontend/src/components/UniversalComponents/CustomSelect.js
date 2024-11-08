@@ -11,6 +11,9 @@ const CustomSelect = ({
   backgroundColor = themes.colors.primary,
   color = "white",
   borderRadius = null,
+
+  border = "none",
+  width = "auto",
 }) => {
   return (
     <Select
@@ -18,11 +21,12 @@ const CustomSelect = ({
       onChange={onChange}
       indicator={<KeyboardArrowDown />}
       sx={{
-        width: 200,
+        width: width,
+        minWidth: "130px",
         bgcolor: backgroundColor,
         color: color,
-        border: "none",
-        borderRadius: { borderRadius },
+        border: border,
+        borderRadius: borderRadius,
         outline: "none",
         boxShadow: "none",
         "&:hover": {
