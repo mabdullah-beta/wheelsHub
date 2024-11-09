@@ -11,3 +11,10 @@ Then activate
 source venv/bin/activate
 ```
 
+Then navigate to backend and run the server with
+
+```shell
+python manage.py runserver
+```
+
+There are two core files. Go to `backend/wheelshub` and add your routes to `views.py` and then include the routes through `backend/backend/urls.py` file.
