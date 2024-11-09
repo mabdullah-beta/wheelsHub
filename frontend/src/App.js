@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import PageWrapper from "./components/PageWrapper"; // Import the PageWrapper
 import "./index.css";
+import ViewListing from "./pages/ViewListing";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <PageWrapper>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/viewListing" element={<ViewListing />} />
           </Routes>
         </PageWrapper>
         <Footer />

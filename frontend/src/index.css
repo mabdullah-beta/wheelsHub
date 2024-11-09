@@ -1,19 +1,31 @@
+/* Define Plus Jakarta Sans Regular */
+@font-face {
+  font-family: "Plus Jakarta Sans Regular";
+  src: url("./fonts/PlusJakartaSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Define Plus Jakarta Sans Bold */
+@font-face {
+  font-family: "Plus Jakarta Sans Bold";
+  src: url("./fonts/PlusJakartaSans-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Define Plus Jakarta Sans Medium */
+@font-face {
+  font-family: "Plus Jakarta Sans Medium";
+  src: url("./fonts/PlusJakartaSans-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
 body {
   margin: 0;
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 
-    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 
-    'Helvetica Neue', sans-serif; /* Add Plus Jakarta Sans as the primary font */
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif; /* Add Plus Jakarta Sans as the primary font */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-.MuiInput-root .MuiInput-variantOutlined .MuiInput-colorNeutral .MuiInput-sizeMd .Mui-focused .css-w7zzjh-JoyInput-root::before{
-  border-color: rgb(22, 22, 22) !important;
-  border: none;
-  box-shadow: none;
-
 }
