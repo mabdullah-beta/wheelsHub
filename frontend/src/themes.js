@@ -40,7 +40,7 @@ const theme = createTheme({
       fontFamily: `"Plus Jakarta Sans", sans-serif`,
       fontSize: "1rem",
       fontWeight: 400,
-      color: "#333",
+      color: "#90A3BF",
     },
     body2: {
       fontFamily: `"Plus Jakarta Sans", sans-serif`,

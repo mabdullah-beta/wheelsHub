@@ -32,6 +32,7 @@ const HeroSection = () => {
         <Box sx={{ display: "flex", alignItems: "center", color: "white" }}>
           <CustomSelect
             options={locations}
+            arrowColor="white"
             value={selectedLocation}
             width="120px"
             onChange={(event, value) => {
