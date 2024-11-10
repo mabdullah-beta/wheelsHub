@@ -6,6 +6,7 @@ const theme = createTheme({
     secondary: "#FF5733",
     headingPrimary: "#2C3E50",
     headingSecondary: "#7F8C8D",
+    backgroundColor: "#F6F7F9",
   },
 
   fonts: {
@@ -17,6 +18,12 @@ const theme = createTheme({
 
   typography: {
     fontFamily: `"Plus Jakarta Sans", sans-serif`,
+    h2: {
+      fontFamily: `"Plus Jakarta Sans", sans-serif`,
+      fontSize: "32px",
+      fontWeight: 700,
+      color: "#1A202C",
+    },
     h4: {
       fontFamily: `"Plus Jakarta Sans", sans-serif`,
       fontSize: "20px",

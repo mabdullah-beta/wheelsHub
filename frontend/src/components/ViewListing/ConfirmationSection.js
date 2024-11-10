@@ -1,6 +1,8 @@
 import React from "react";
 import { Stack, Checkbox, Typography, Button } from "@mui/joy";
-import { Lock } from "lucide-react";
+
+import { ReactComponent as Secure } from "../../assets/Secure.svg";
+import theme from "../../themes";
 
 const ConfirmationStep = ({ onSubmit }) => {
   return (
@@ -49,44 +51,41 @@ const ConfirmationStep = ({ onSubmit }) => {
         spacing={1.5}
         sx={{
           alignItems: "center",
-          bgcolor: "background.level1",
+          bgcolor: theme.colors.backgroundColor,
           p: 2,
           borderRadius: "8px",
         }}
       >
         <Checkbox size="sm" />
-        <Typography level="body2" sx={{ color: "text.secondary" }}>
+        <Typography level="body2" sx={{ color: "#1F2544" }}>
           I agree with your terms and conditions and privacy policy.
         </Typography>
       </Stack>
 
-      {/* Submit Button */}
       <Button
         size="lg"
         color="primary"
         sx={{
-          width: "100%",
+          width: "140px",
           py: 1.5,
           fontWeight: 600,
           borderRadius: "8px",
+          bgcolor: theme.colors.primary,
         }}
         onClick={onSubmit}
       >
         Post Now
       </Button>
 
-      {/* Security Notice */}
       <Stack
-        direction="row"
-        spacing={1}
+        direction="column"
+        spacing={2}
         sx={{
-          alignItems: "center",
-          justifyContent: "center",
           mt: 2,
         }}
       >
-        <Lock size={20} />
-        <Stack spacing={0.5} alignItems="center">
+        <Secure size={20} />
+        <Stack spacing={2} direction="column" alignItems="start">
           <Typography
             level="body2"
             sx={{ color: "text.primary", fontWeight: "bold" }}
