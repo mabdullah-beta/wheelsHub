@@ -11,6 +11,11 @@ Then activate
 source venv/bin/activate
 ```
 
+Then install the packages
+```shell
+pip install -r requirements.txt
+```
+
 Then navigate to backend and run the server with
 
 ```shell
