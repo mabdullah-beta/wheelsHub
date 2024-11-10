@@ -55,6 +55,7 @@ const ProductPage = () => {
         type: "Sport",
         steering: "Manual",
         capacity: "2 Person",
+        gasoline: "70L",
         topBid: 88666,
         author: {
           name: "Alex Stanton",
@@ -201,7 +202,7 @@ const ProductPage = () => {
             <ProductDetailItem label="Type" value={product.type} />
             <ProductDetailItem label="Capacity" value={product.capacity} />
             <ProductDetailItem label="Steering" value={product.steering} />
-            <ProductDetailItem label="Top Bid" value={`$${product.topBid}`} />
+            <ProductDetailItem label="Gasoline" value={product.gasoline} />
           </Box>
 
           {/* Owner and Bid Info */}
