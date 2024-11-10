@@ -22,7 +22,7 @@ const HeroSection = () => {
   return (
     <Card
       variant="outlined"
-      sx={{ mb: 4, p: 4, bgcolor: "#3563E9", borderRadius: "20px" }}
+      sx={{ mb: 6, p: 4, bgcolor: "#3563E9", borderRadius: "20px" }}
     >
       {/* Header Section */}
       <Box mb={3}>
@@ -97,7 +97,7 @@ const HeroSection = () => {
               display: "flex",
               flexWrap: "wrap", // Allow items to wrap to next row on small screens
               gap: 2,
-              mb: 3, // Optional margin for spacing
+
               flexDirection: { xs: "column", md: "row" }, // Stack filters on small screens, row on larger
             }}
           >
