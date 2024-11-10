@@ -1,6 +1,5 @@
-// ViewListing.js
 import React, { useState } from "react";
-import { Box, Alert } from "@mui/joy";
+import { Box, Alert, CircularProgress } from "@mui/joy"; // Added CircularProgress
 
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +8,8 @@ import FormSection from "../components/ViewListing/FormSection";
 
 const ViewListing = () => {
   const navigate = useNavigate();
+  const [isAgreed, setIsAgreed] = useState(false);
+  const [loading, setLoading] = useState(false); // Added loading state
 
   const [formData, setFormData] = useState({
     // Personal Info
@@ -142,6 +143,15 @@ const ViewListing = () => {
   };
 
   const handleSubmit = async () => {
+    if (!isAgreed) {
+      setSubmitStatus({
+        show: true,
+        type: "danger",
+        message:
+          "You must agree to the terms and conditions before submitting.",
+      });
+      return;
+    }
     const newErrors = validateForm();
 
     if (Object.keys(newErrors).length > 0) {
@@ -155,6 +165,9 @@ const ViewListing = () => {
     }
 
     try {
+      // Show loading spinner
+      setLoading(true);
+
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -180,8 +193,12 @@ const ViewListing = () => {
         mileage: "",
         askingPrice: "",
       });
+
+      // After loading is done, navigate
+      setLoading(false);
       navigate("/productPage");
     } catch (error) {
+      setLoading(false); // Hide loading spinner if error
       setSubmitStatus({
         show: true,
         type: "danger",
@@ -213,6 +230,13 @@ const ViewListing = () => {
         </Alert>
       )}
 
+      {/* Show loading spinner */}
+      {loading && (
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+          <CircularProgress />
+        </Box>
+      )}
+
       <FormSection
         title="Personal Info"
         subtitle="Please enter your personal info"
@@ -233,7 +257,11 @@ const ViewListing = () => {
         onInputChange={handleInputChange}
       />
 
-      <ConfirmationSection onSubmit={handleSubmit} />
+      <ConfirmationSection
+        onSubmit={handleSubmit}
+        isAgreed={isAgreed}
+        setIsAgreed={setIsAgreed}
+      />
     </Box>
   );
 };

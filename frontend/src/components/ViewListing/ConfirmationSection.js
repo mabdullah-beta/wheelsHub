@@ -4,7 +4,7 @@ import { Stack, Checkbox, Typography, Button } from "@mui/joy";
 import { ReactComponent as Secure } from "../../assets/Secure.svg";
 import theme from "../../themes";
 
-const ConfirmationStep = ({ onSubmit }) => {
+const ConfirmationStep = ({ onSubmit, isAgreed, setIsAgreed }) => {
   return (
     <Stack
       spacing={3}
@@ -56,7 +56,11 @@ const ConfirmationStep = ({ onSubmit }) => {
           borderRadius: "8px",
         }}
       >
-        <Checkbox size="sm" />
+        <Checkbox
+          size="sm"
+          checked={isAgreed}
+          onChange={(e) => setIsAgreed(e.target.checked)}
+        />
         <Typography level="body2" sx={{ color: "#1F2544" }}>
           I agree with your terms and conditions and privacy policy.
         </Typography>
