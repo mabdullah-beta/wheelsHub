@@ -77,6 +77,7 @@ const CarCard = ({ carData, onLikeToggle }) => {
             display: "flex",
             alignItems: "center",
 
+            p: 0,
             bgcolor: "transparent",
           }}
           size="md"
@@ -92,6 +93,7 @@ const CarCard = ({ carData, onLikeToggle }) => {
           sx={{
             display: "flex",
             alignItems: "center",
+            p: 0,
 
             bgcolor: "transparent",
           }}
@@ -108,6 +110,7 @@ const CarCard = ({ carData, onLikeToggle }) => {
           sx={{
             display: "flex",
             alignItems: "center",
+            p: 0,
 
             bgcolor: "transparent",
           }}
