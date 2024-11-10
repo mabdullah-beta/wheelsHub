@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import PageWrapper from "./components/PageWrapper"; // Import the PageWrapper
 import "./index.css";
 import ViewListing from "./pages/ViewListing";
+import ProductPage from "./pages/ProductPage";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/viewListing" element={<ViewListing />} />
+            <Route path="/productPage" element={<ProductPage />} />
           </Routes>
         </PageWrapper>
         <Footer />
