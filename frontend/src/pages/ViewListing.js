@@ -1,29 +1,25 @@
 import React, { useState } from "react";
-import { Box, Alert, CircularProgress } from "@mui/joy"; // Added CircularProgress
-
+import { Box, Alert, CircularProgress } from "@mui/joy";
 import { useNavigate } from "react-router-dom";
-
 import ConfirmationSection from "../components/ViewListing/ConfirmationSection";
 import FormSection from "../components/ViewListing/FormSection";
 
 const ViewListing = () => {
   const navigate = useNavigate();
   const [isAgreed, setIsAgreed] = useState(false);
-  const [loading, setLoading] = useState(false); // Added loading state
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
-    // Personal Info
     name: "",
-    phoneNumber: "",
+    phone_number: "", // Updated key
     address: "",
-    townCity: "",
-    // Car Info
+    town_city: "", // Updated key
     title: "",
     make: "",
     model: "",
     variant: "",
     mileage: "",
-    askingPrice: "",
+    asking_price: "", // Updated key
   });
 
   const [errors, setErrors] = useState({});
@@ -36,18 +32,18 @@ const ViewListing = () => {
   const personalInfoFields = [
     { name: "name", label: "Name", placeholder: "Your name", type: "text" },
     {
-      name: "phoneNumber",
+      name: "phone_number",
       label: "Phone Number",
       placeholder: "Phone number",
       type: "text",
-    },
+    }, // Updated key
     { name: "address", label: "Address", placeholder: "Address", type: "text" },
     {
-      name: "townCity",
+      name: "town_city",
       label: "Town / City",
       placeholder: "Town / City",
       type: "text",
-    },
+    }, // Updated key
   ];
 
   const carInfoFields = [
@@ -56,7 +52,6 @@ const ViewListing = () => {
       label: "Title",
       placeholder: "Your ad title",
       type: "text",
-      sm: 12,
     },
     {
       name: "make",
@@ -98,46 +93,37 @@ const ViewListing = () => {
       type: "text",
     },
     {
-      name: "askingPrice",
+      name: "asking_price",
       label: "Asking price",
       placeholder: "Enter your ask",
       type: "text",
-      startDecorator: "$",
-    },
+    }, // Updated key
   ];
 
   const handleInputChange = (name, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    // Clear error when user starts typing
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
   const validateForm = () => {
     const newErrors = {};
 
-    // Validate Personal Info
     if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.phoneNumber.trim())
-      newErrors.phoneNumber = "Phone number is required";
+    if (!formData.phone_number.trim())
+      newErrors.phone_number = "Phone number is required"; // Updated key
     if (!formData.address.trim()) newErrors.address = "Address is required";
-    if (!formData.townCity.trim()) newErrors.townCity = "Town/City is required";
+    if (!formData.town_city.trim())
+      newErrors.town_city = "Town/City is required"; // Updated key
 
-    // Validate Car Info
     if (!formData.title.trim()) newErrors.title = "Title is required";
     if (!formData.make) newErrors.make = "Make is required";
     if (!formData.model) newErrors.model = "Model is required";
     if (!formData.variant) newErrors.variant = "Variant is required";
     if (!formData.mileage.trim()) newErrors.mileage = "Mileage is required";
-    if (!formData.askingPrice.trim())
-      newErrors.askingPrice = "Asking price is required";
+    if (!formData.asking_price.trim())
+      newErrors.asking_price = "Asking price is required"; // Updated key
 
     return newErrors;
   };
@@ -152,6 +138,7 @@ const ViewListing = () => {
       });
       return;
     }
+
     const newErrors = validateForm();
 
     if (Object.keys(newErrors).length > 0) {
@@ -165,45 +152,56 @@ const ViewListing = () => {
     }
 
     try {
-      // Show loading spinner
       setLoading(true);
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Log the form data
-      console.log("Form submitted successfully:", formData);
-
-      setSubmitStatus({
-        show: true,
-        type: "success",
-        message: "Listing submitted successfully!",
+      const response = await fetch("http://localhost:8000/listings/create/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
-      // Reset form after successful submission
-      setFormData({
-        name: "",
-        phoneNumber: "",
-        address: "",
-        townCity: "",
-        title: "",
-        make: "",
-        model: "",
-        variant: "",
-        mileage: "",
-        askingPrice: "",
-      });
+      const data = await response.json();
 
-      // After loading is done, navigate
-      setLoading(false);
-      navigate("/productPage");
+      if (!response.ok) {
+        console.error("Error details:", data);
+        throw new Error(data.errors || "Error submitting form.");
+      }
+
+      if (data.success) {
+        setSubmitStatus({
+          show: true,
+          type: "success",
+          message: "Listing submitted successfully!",
+        });
+        setFormData({
+          name: "",
+          phone_number: "",
+          address: "",
+          town_city: "",
+          title: "",
+          make: "",
+          model: "",
+          variant: "",
+          mileage: "",
+          asking_price: "",
+        });
+        navigate("/productPage");
+      } else {
+        setSubmitStatus({
+          show: true,
+          type: "danger",
+          message: "Error submitting form. Please try again.",
+        });
+      }
     } catch (error) {
-      setLoading(false); // Hide loading spinner if error
+      setLoading(false);
       setSubmitStatus({
         show: true,
         type: "danger",
         message: "Error submitting form. Please try again.",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -246,7 +244,6 @@ const ViewListing = () => {
         errors={errors}
         onInputChange={handleInputChange}
       />
-
       <FormSection
         title="Car Info"
         subtitle="Please enter your car info"
@@ -256,7 +253,6 @@ const ViewListing = () => {
         errors={errors}
         onInputChange={handleInputChange}
       />
-
       <ConfirmationSection
         onSubmit={handleSubmit}
         isAgreed={isAgreed}

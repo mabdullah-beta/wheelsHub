@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Deal 
+from .models import CarListing
 
 class DealSerializer(serializers.ModelSerializer):
 
@@ -8,6 +9,7 @@ class DealSerializer(serializers.ModelSerializer):
 
         model = Deal
         fields = '__all__'  
+
 
 class UserSerializer(serializers.ModelSerializer):
     
@@ -26,3 +28,4 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         
         return user
+

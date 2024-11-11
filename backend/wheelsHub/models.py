@@ -57,3 +57,24 @@ class Deal(models.Model):
 
     class Meta:
         db_table = 'deals'
+
+
+
+class CarListing(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=15)
+    address = models.CharField(max_length=255)
+    town_city = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
+    make = models.CharField(max_length=50)
+    model = models.CharField(max_length=50)
+    variant = models.CharField(max_length=50)
+    mileage = models.CharField(max_length=50)
+    asking_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        db_table = 'car_listings'  # This will create a table named 'car_listings'

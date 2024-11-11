@@ -4,7 +4,7 @@ import { Search } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import CustomSelect from "../UniversalComponents/CustomSelect";
 import themes from "../../themes";
-
+import HeroImage from "../../assets/hero.png";
 const HeroSection = () => {
   const locations = ["California", "Texas", "Florida", "New York", "Illinois"];
   const [selectedLocation, setSelectedLocation] = useState(locations[0]);
@@ -22,7 +22,16 @@ const HeroSection = () => {
   return (
     <Card
       variant="outlined"
-      sx={{ mb: 6, p: 4, bgcolor: "#3563E9", borderRadius: "20px" }}
+      sx={{
+        mb: 6,
+        p: 4,
+        bgcolor: "white",
+        borderRadius: "20px",
+        backgroundImage: `url(${HeroImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
     >
       {/* Header Section */}
       <Box mb={3}>
@@ -50,9 +59,9 @@ const HeroSection = () => {
           p: 3,
           boxShadow: 2,
           gap: 2,
+          mb: 3,
           display: "flex",
           flexDirection: { xs: "column", md: "row" }, // Stacked on xs and row on md
-          alignItems: { md: "stretch" },
         }}
       >
         <Box
@@ -91,7 +100,6 @@ const HeroSection = () => {
             />
           </Box>
 
-          {/* Filters Section */}
           <Box
             sx={{
               display: "flex",
@@ -135,17 +143,12 @@ const HeroSection = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              padding: "0 16px", // Added padding for better tap area
-              borderRadius: "12px", // Soft rounded corners
-              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
-              transition: "all 0.3s ease", // Smooth transition for hover effect
-              ":hover": {
-                bgcolor: "#45A049", // Darker shade for hover
-              },
-              ":focus": {
-                outline: "none", // Remove outline on focus
-                boxShadow: "0 0 0 4px rgba(72, 133, 255, 0.5)", // Focus outline for accessibility
-              },
+              padding: "0 16px",
+              borderRadius: "12px",
+
+              transition: "all 0.3s ease",
+              
+             
             }}
           >
             <SearchIcon

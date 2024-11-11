@@ -41,6 +41,7 @@ const PromotionalCard = () => {
             bgcolor: "white",
             borderRadius: "12px",
             padding: "0 20px",
+            transition: "all 0.3s ease",
             color: themes.colors.primary,
             "&:hover": {
               bgcolor: "lightgray",

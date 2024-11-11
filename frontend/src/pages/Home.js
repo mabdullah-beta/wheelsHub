@@ -1,9 +1,11 @@
-import React, { useState } from "react"; // Import useState
+import React, { useState, useEffect } from "react"; // Import useState
 import { Box, Typography, Button } from "@mui/joy";
 import CarCard from "../components/Home/CarCard";
 import car from "../assets/car.png";
 import HeroSection from "../components/Home/HeroSection";
 import PromotionalCard from "../components/Home/PromotionalCard";
+
+import { fetchDeals } from "../apiService";
 
 const Home = () => {
   const initialPopularCars = [
@@ -112,8 +114,24 @@ const Home = () => {
   const [recommendedCars, setRecommendedCars] = useState(
     initialRecommendedCars
   );
+  const [allDeals, setAllDeals] = useState([]);
 
-  // Function to toggle the liked state of a car
+  useEffect(() => {
+    const getDeals = async () => {
+      try {
+        const deals = await fetchDeals();
+
+        setAllDeals(deals);
+      } catch (error) {
+        console.error("Failed to fetch deals:", error);
+      }
+    };
+
+    getDeals();
+  }, []);
+
+  console.log(allDeals);
+
   const handleLikeToggle = (id) => {
     // Update popular cars
     const updatedPopularCars = popularCars.map((car) =>
@@ -163,7 +181,7 @@ const Home = () => {
               },
             }}
           >
-            {popularCars.map((car) => (
+            {allDeals.map((car) => (
               <CarCard
                 key={car.id}
                 carData={car}
