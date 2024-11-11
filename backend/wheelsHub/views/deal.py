@@ -5,10 +5,10 @@ from django.db.models import Q
 
 
 # Import db models 
-from .models import Deal
+from ..models import Deal
 
 # Extras
-from .serializers import DealSerializer
+from ..serializers import DealSerializer
 
 # Get all deals
 @api_view(['GET'])
