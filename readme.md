@@ -49,3 +49,23 @@ deal = Deal()
 # And write into db
 deal.save()
 ```
+
+For the query route
+```shell
+/deals/?title=sedan&make=toyota&year=2022&price_min=10000&price_max=30000&transmission=automatic&location=new+york
+```
+
+For auth there is registration route
+```shell
+curl -X POST http://localhost:8000/users/register/ -d '{"username": "testuser", "password": "testpass"}' -H "Content-Type: application/json"
+```
+
+For login
+```shell
+curl -X POST http://localhost:8000/api/token/ -d '{"username": "testuser", "password": "testpass"}' -H "Content-Type: application/json"
+```
+
+And protected routes will get
+```shell
+curl -X GET http://localhost:8000/auth/user -H "Authorization: Bearer token"
+```
