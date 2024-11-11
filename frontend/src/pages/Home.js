@@ -131,87 +131,87 @@ const Home = () => {
   return (
     <Box sx={{ padding: "50px 0px" }}>
       <HeroSection />
-      {/* Popular Cars Section */}
-      <Box sx={{ mb: 4 }}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 2,
-          }}
-        >
-          <Typography level="body1" sx={{ ml: 2 }}>
-            Popular Cars
-          </Typography>
-          <Button variant="plain">View All</Button>
+      <Box sx={{ mb: 6 }}>
+        <Box sx={{ mb: 4 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 2,
+            }}
+          >
+            <Typography level="body1" sx={{ ml: 2 }}>
+              Popular Cars
+            </Typography>
+            <Button variant="plain">View All</Button>
+          </Box>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "repeat(1, 1fr)", // 1 column on extra small screens
+                sm: "repeat(2, 1fr)", // 2 columns on small screens
+                md: "repeat(3, 1fr)", // 3 columns on medium screens
+                lg: "repeat(4, 1fr)", // 4 columns on large screens
+              },
+              gap: {
+                xs: 1, // Smaller gap for extra small screens
+                sm: 2, // Medium gap for small screens
+                md: 3, // Larger gap for medium screens
+                lg: 4, // Largest gap for large screens
+              },
+            }}
+          >
+            {popularCars.map((car) => (
+              <CarCard
+                key={car.id}
+                carData={car}
+                onLikeToggle={handleLikeToggle}
+              />
+            ))}
+          </Box>
         </Box>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: {
-              xs: "repeat(1, 1fr)", // 1 column on extra small screens
-              sm: "repeat(2, 1fr)", // 2 columns on small screens
-              md: "repeat(3, 1fr)", // 3 columns on medium screens
-              lg: "repeat(4, 1fr)", // 4 columns on large screens
-            },
-            gap: {
-              xs: 1, // Smaller gap for extra small screens
-              sm: 2, // Medium gap for small screens
-              md: 3, // Larger gap for medium screens
-              lg: 4, // Largest gap for large screens
-            },
-          }}
-        >
-          {popularCars.map((car) => (
-            <CarCard
-              key={car.id}
-              carData={car}
-              onLikeToggle={handleLikeToggle}
-            />
-          ))}
-        </Box>
-      </Box>
 
-      {/* Recommended Cars Section */}
-      <Box sx={{ mb: 4 }}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 2,
-          }}
-        >
-          <Typography level="body1" sx={{ ml: 2 }}>
-            Recommended Cars
-          </Typography>
-          <Button variant="plain">View All</Button>
-        </Box>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: {
-              xs: "repeat(1, 1fr)",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-              lg: "repeat(4, 1fr)",
-            },
-            gap: {
-              xs: 1,
-              sm: 2,
-              md: 3,
-              lg: 4,
-            },
-          }}
-        >
-          {recommendedCars.map((car) => (
-            <CarCard
-              key={car.id}
-              carData={car}
-              onLikeToggle={handleLikeToggle}
-            />
-          ))}
+        <Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 2,
+            }}
+          >
+            <Typography level="body1" sx={{ ml: 2 }}>
+              Recommended Cars
+            </Typography>
+            <Button variant="plain">View All</Button>
+          </Box>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "repeat(1, 1fr)",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+                lg: "repeat(4, 1fr)",
+              },
+              gap: {
+                xs: 1,
+                sm: 2,
+                md: 3,
+                lg: 4,
+              },
+            }}
+          >
+            {recommendedCars.map((car) => (
+              <CarCard
+                key={car.id}
+                carData={car}
+                onLikeToggle={handleLikeToggle}
+              />
+            ))}
+          </Box>
         </Box>
       </Box>
 
