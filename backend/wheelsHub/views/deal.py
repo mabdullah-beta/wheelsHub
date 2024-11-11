@@ -125,7 +125,7 @@ def get_deal_by_id(request, deal_id):
         bids = []
 
         # Check if seller
-        is_seller = deal.seller == uuid.UUID(int=request.user.id)
+        is_seller = deal.seller == uuid.UUID(int=request.user.id) if request.user.id is not None else False
         
         # Check if this is the listing of the current user
         if is_seller:

@@ -57,15 +57,15 @@ For the query route
 
 For auth there is registration route
 ```shell
-curl -X POST http://localhost:8000/users/register/ -d '{"username": "testuser", "password": "testpass"}' -H "Content-Type: application/json"
+curl -X POST http://localhost:8000/auth/register/ -d '{"username": "testuser", "first_name": "Yoo", "last_name": "Hello", "password": "testpass"}' -H "Content-Type: application/json"
 ```
 
 For login
 ```shell
-curl -X POST http://localhost:8000/api/token/ -d '{"username": "testuser", "password": "testpass"}' -H "Content-Type: application/json"
+curl -X POST http://localhost:8000/auth/login/ -d '{"username": "testuser", "password": "testpass"}' -H "Content-Type: application/json"
 ```
 
 And protected routes will get
 ```shell
-curl -X GET http://localhost:8000/auth/user -H "Authorization: Bearer token"
+curl -X GET http://localhost:8000/auth/user/ -H "Authorization: Bearer token"
 ```

@@ -39,7 +39,7 @@ def login_user(request):
     
     # Login user
     user = authenticate(username=username, password=password)
-    
+
     # If user exists
     if user is not None:
 
