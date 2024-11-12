@@ -121,6 +121,9 @@ def get_deal_by_id(request, deal_id):
         # Serialize the object, because python objects cannot be passed without first converting them to dict
         serializer = DealSerializer(deal)
 
+        # Get the seller details
+        seller = User.objects.get(id=deal.seller)
+
         # Init bids
         bids = []
 
@@ -146,13 +149,14 @@ def get_deal_by_id(request, deal_id):
                     "amount": bid.amount, 
                     "message": bid.message, 
                     "status": bid.status, 
-                    "contact": bid.contact if bid.status == "accepted" else f"{bid.contact[0]}{'*' * (len(bid.contact) - 2)}{bid.contact[-1]}", 
-                    "buyer": bid.buyer, "buyer_name": f"{buyer.first_name} {buyer.last_name}" 
+                    "buyer_contact": bid.contact if bid.status == "accepted" else f"{bid.contact[0]}{'*' * (len(bid.contact) - 2)}{bid.contact[-1]}", 
+                    "buyer": bid.buyer, 
+                    "buyer_name": f"{buyer.first_name} {buyer.last_name}" 
         
                 })
 
         # Return json
-        return Response({ "success": True, "is_seller": is_seller, "deal": serializer.data, "bids": bids })
+        return Response({ "success": True, "is_seller": is_seller, "deal": serializer.data, "seller": f"{ seller.first_name } { seller.last_name }", "bids": bids })
 
     except Deal.DoesNotExist:
 
