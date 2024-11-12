@@ -28,7 +28,7 @@ def create_bid(request, deal_id):
     # Get data
     amount = request.data.get('amount')
     message = request.data.get('message', '')
-    contact = request.data.get('phone_number', '')
+    contact = request.data.get('contact', '')
 
     # Validate required fields
     if not amount or not contact:
