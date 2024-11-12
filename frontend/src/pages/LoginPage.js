@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -7,6 +7,7 @@ import {
   Link,
   Card,
   IconButton,
+  Snackbar,
 } from "@mui/joy";
 import theme from "../themes";
 import Visibility from "@mui/icons-material/Visibility";
@@ -17,11 +18,19 @@ const API_URL = "http://127.0.0.1:8000/";
 
 const LoginPage = () => {
   const location = useLocation();
-  const message = location.state?.message;
+  const [message, setMessage] = useState(""); // For displaying success message
+  const [open, setOpen] = useState(false); // Snackbar visibility state
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.state?.successMessage) {
+      setMessage(location.state.successMessage); // Set the success message from the signup page
+      setOpen(true); // Show the Snackbar
+    }
+  }, [location]);
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -33,7 +42,7 @@ const LoginPage = () => {
     const userData = { username, password };
 
     try {
-      const response = await fetch(`${API_URL}auth/login`, {
+      const response = await fetch(`${API_URL}auth/login/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
@@ -43,7 +52,10 @@ const LoginPage = () => {
 
       if (response.ok) {
         localStorage.setItem("token", data.access);
-        navigate("/");
+
+        // Redirect to the page the user was trying to access (from state)
+        const redirectTo = location.state?.from || "/";
+        navigate(redirectTo);
       } else {
         console.error(data);
         alert("Login failed. Please check your credentials.");
@@ -52,6 +64,11 @@ const LoginPage = () => {
       console.error("Error during login:", error);
       alert("An error occurred. Please try again.");
     }
+  };
+  console.log(message);
+
+  const handleCloseSnackbar = () => {
+    setOpen(false); // Close Snackbar
   };
 
   return (
@@ -67,23 +84,23 @@ const LoginPage = () => {
       }}
     >
       {message && (
-        <Box
+        <Snackbar
+          open={open}
+          autoHideDuration={6000000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
           sx={{
-            mb: 3,
-            p: 2,
-            color: theme.colors.warningDark,
-            borderRadius: "8px",
-            width: "100%",
-            maxWidth: { xs: 300, sm: 400 },
-            textAlign: "center",
-            border: "1px solid blue",
             bgcolor: theme.colors.primary,
+            textAlign: "center",
+            display: "block",
+            color: "white",
+            "& .MuiSnackbarContent-root": {
+              backgroundColor: theme.colors.primary, // Ensure background color is set
+            },
           }}
         >
-          <Typography level="h4" sx={{ color: "white" }}>
-            {message}
-          </Typography>
-        </Box>
+          <Typography sx={{ color: "white" }}>{message}</Typography>
+        </Snackbar>
       )}
       <Card
         sx={{

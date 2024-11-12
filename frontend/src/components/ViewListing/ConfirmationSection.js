@@ -40,7 +40,7 @@ const ConfirmationStep = ({ onSubmit, isAgreed, setIsAgreed }) => {
               fontSize: "14px",
             }}
           >
-            Step 3 of 3
+            Step 4 of 4
           </Typography>
         </Stack>
       </Stack>

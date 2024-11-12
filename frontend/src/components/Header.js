@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Sheet, Typography, IconButton, Box, Input } from "@mui/joy";
+import { Sheet, Typography, IconButton, Box, Input, Button } from "@mui/joy";
 import { Person, Search, AddCircle } from "@mui/icons-material";
 import themes from "../themes";
 import { useNavigate, useLocation, Link } from "react-router-dom";
@@ -16,16 +16,16 @@ const Header = () => {
     setSearchOpen(!searchOpen);
   };
 
-  const handleCreateListing = () => {
-    const token = localStorage.getItem("token"); // Get token from localStorage
+ const handleCreateListing = () => {
+   const token = localStorage.getItem("token"); // Get token from localStorage
 
-    if (token) {
-      navigate("/createListing");
-    } else {
-      // If no token, redirect to signup or login
-      navigate("/login"); // Change this to "/login" if you want to redirect to login
-    }
-  };
+   if (token) {
+     navigate("/createListing");
+   } else {
+     // Store the current location and redirect to login page
+     navigate("/login", { state: { from: "/createListing" } });
+   }
+ };
 
   return (
     <Sheet
@@ -52,66 +52,29 @@ const Header = () => {
             WheelsHub
           </Typography>
         </Link>
-
-        <Box
-          sx={{
-            display: { xs: "none", md: "flex" },
-            alignItems: "center",
-            border: "1px solid #ccc",
-            borderRadius: "10px",
-            padding: "4px 8px",
-            width: "100%",
-          }}
-        >
-          <IconButton
-            sx={{
-              padding: 0,
-              bgcolor: "transparent",
-              "&:hover": {
-                bgcolor: "transparent",
-              },
-            }}
-          >
-            <Search />
-          </IconButton>
-          <Input
-            placeholder="Search something here"
-            sx={{
-              "--Input-focusedThickness": "0",
-              flex: 1,
-              border: "none",
-              outline: "none",
-              boxShadow: "none",
-              paddingLeft: "8px",
-            }}
-          />
-        </Box>
       </Box>
 
       <Box sx={{ display: "flex", alignItems: "center", gap: "6px" }}>
         {location.pathname !== "/createListing" && (
-          <IconButton
+          <Button
+            variant="contained"
             color="primary"
             onClick={handleCreateListing}
             sx={{
-              fontSize: "1.8rem",
-              padding: 0,
-              marginLeft: 1,
+              padding: "8px 16px", // Adjust padding to look like a button
+              fontSize: "1rem", // Set font size for button text
+              borderRadius: "4px", // Rounded corners
+              boxShadow: "md", // Optional shadow for a button effect
+              textTransform: "none", // To prevent text from being all caps (optional)
+              ":hover": {
+                backgroundColor: themes.colors.primaryDark, // Change background color on hover
+              },
             }}
           >
-            <AddCircle />
-          </IconButton>
+            Create Listing
+          </Button>
         )}
-        <IconButton
-          onClick={toggleSearch}
-          sx={{
-            display: { xs: "block", md: "none" },
-            fontSize: "1.5rem",
-            padding: 0,
-          }}
-        >
-          <Search />
-        </IconButton>
+
         <IconButton
           color="neutral"
           sx={{
