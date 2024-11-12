@@ -1,23 +1,88 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Card, Typography, Input, Button, IconButton } from "@mui/joy";
 import { Search } from "@mui/icons-material";
-import SearchIcon from "@mui/icons-material/Search";
 import CustomSelect from "../UniversalComponents/CustomSelect";
+import SearchIcon from "@mui/icons-material/Search";
 import themes from "../../themes";
 import HeroImage from "../../assets/hero.png";
-const HeroSection = () => {
-  const locations = ["California", "Texas", "Florida", "New York", "Illinois"];
+
+const HeroSection = ({ onFilterChange, onSearch }) => {
+  const locations = [
+    "California",
+    "Gothenburg",
+    "Florida",
+    "New York",
+    "Illinois",
+  ];
   const [selectedLocation, setSelectedLocation] = useState(locations[0]);
 
-  // Example options for filters
-  const filterOptions = [
-    "Model name",
-    "Year make",
-    "Price range",
-    "Mileage",
-    "Transmission",
-    "Color",
+  const filterConfigs = [
+    {
+      name: "title",
+      placeholder: "Title",
+      options: ["Sedan", "Coupe", "Sport", "Luxury"],
+    },
+    {
+      name: "year",
+      placeholder: "Year Make",
+      options: ["2022", "2021", "2020"],
+    },
+    {
+      name: "priceRange",
+      placeholder: "Price Range",
+      options: ["$10,000 - $20,000", "$20,000 - $30,000"],
+    },
+    {
+      name: "mileage",
+      placeholder: "Mileage",
+      options: ["0-10,000 miles", "10,000-20,000 miles"],
+    },
+    {
+      name: "transmission",
+      placeholder: "Transmission",
+      options: ["automatic", "Manual"],
+    },
+    { name: "color", placeholder: "Color", options: ["Red", "Blue", "Black"] },
   ];
+
+  const [filterValues, setFilterValues] = useState({
+    title: "",
+    year: "",
+    priceRange: "",
+    mileage: "",
+    transmission: "",
+    color: "",
+    location: selectedLocation,
+  });
+
+  const handleFilterChange = (name, value) => {
+    setFilterValues((prevValues) => {
+      const updatedValues = { ...prevValues, [name]: value };
+      if (name === "location") {
+        updatedValues["location"] = value;
+      }
+      return updatedValues;
+    });
+    onFilterChange(name, value);
+  };
+
+  // const handleClearFilters = () => {
+  //   const clearedFilters = {
+  //     title: "",
+  //     year: "",
+  //     priceRange: "",
+  //     mileage: "",
+  //     transmission: "",
+  //     color: "",
+  //     location: selectedLocation, // Keep location
+  //   };
+  //   setFilterValues(clearedFilters);
+  //   onFilterChange(clearedFilters); // Notify parent about clearing filters
+  //   setIsFiltersApplied(false); // Reset the flag
+
+  //   // Trigger refetch with cleared parameters
+  //   onSearch(clearedFilters);
+  // };
 
   return (
     <Card
@@ -33,7 +98,6 @@ const HeroSection = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* Header Section */}
       <Box mb={3}>
         <Typography level="h2" sx={{ color: "white", mb: 1 }}>
           Search In
@@ -42,11 +106,12 @@ const HeroSection = () => {
           <CustomSelect
             options={locations}
             arrowColor="white"
+            backgroundColor="transparent"
             value={selectedLocation}
             width="120px"
             onChange={(event, value) => {
-              console.log("Selected Value:", value);
               setSelectedLocation(value);
+              handleFilterChange("location", value);
             }}
           />
         </Box>
@@ -61,7 +126,7 @@ const HeroSection = () => {
           gap: 2,
           mb: 3,
           display: "flex",
-          flexDirection: { xs: "column", md: "row" }, // Stacked on xs and row on md
+          flexDirection: { xs: "column", md: "row" },
         }}
       >
         <Box
@@ -103,18 +168,20 @@ const HeroSection = () => {
           <Box
             sx={{
               display: "flex",
-              flexWrap: "wrap", // Allow items to wrap to next row on small screens
+              flexWrap: "wrap",
               gap: 2,
-
-              flexDirection: { xs: "column", md: "row" }, // Stack filters on small screens, row on larger
+              flexDirection: { xs: "column", md: "row" },
             }}
           >
-            {filterOptions.map((placeholder) => (
+            {filterConfigs.map((filter) => (
               <CustomSelect
-                key={placeholder}
-                options={[placeholder]}
-                value={placeholder}
-                onChange={() => {}}
+                key={filter.name}
+                options={filter.options}
+                value={filterValues[filter.name]}
+                placeholder={filter.placeholder}
+                onChange={(event, value) =>
+                  handleFilterChange(filter.name, value)
+                }
                 border="1px solid #C3D4E966"
                 backgroundColor="white"
                 color="black"
@@ -124,12 +191,11 @@ const HeroSection = () => {
           </Box>
         </Box>
 
-        {/* Search Button Section */}
         <Box
           sx={{
             width: { xs: "100%", md: "15%" },
             display: "flex",
-            justifyContent: { xs: "center", md: "flex-start" }, // Center button on small screens, align left on larger
+            justifyContent: { xs: "center", md: "flex-start" },
             mt: { xs: 2, md: 0 },
           }}
         >
@@ -145,11 +211,9 @@ const HeroSection = () => {
               justifyContent: "center",
               padding: "0 16px",
               borderRadius: "12px",
-
               transition: "all 0.3s ease",
-              
-             
             }}
+            onClick={() => onSearch(filterValues)}
           >
             <SearchIcon
               sx={{ fontSize: { xs: "1.5rem", md: "2.5rem" }, color: "white" }}
@@ -157,6 +221,25 @@ const HeroSection = () => {
           </Button>
         </Box>
       </Box>
+
+      {/* Clear Filters Text */}
+      {/* {isFiltersApplied && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: "20px",
+            right: "20px",
+            bgcolor: "rgba(0, 0, 0, 0.5)",
+            color: "white",
+            padding: "8px 16px",
+            borderRadius: "12px",
+            cursor: "pointer",
+          }}
+          onClick={handleClearFilters}
+        >
+          Clear Filters
+        </Box>
+      )} */}
     </Card>
   );
 };

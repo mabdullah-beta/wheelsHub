@@ -48,6 +48,12 @@ const theme = createTheme({
       fontWeight: 400,
       color: "#90A3BF",
     },
+    body3: {
+      fontFamily: `"Plus Jakarta Sans", sans-serif`,
+      fontSize: "12px",
+      fontWeight: 600,
+      color: "#333333",
+    },
     label: {
       fontSize: "14px",
       fontWeight: 500,

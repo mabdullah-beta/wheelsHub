@@ -8,8 +8,10 @@ const CustomSelect = ({
   options,
   value,
   onChange,
+  placeholder,
   backgroundColor = themes.colors.primary,
   color = "white",
+
   borderRadius = null,
   arrowColor = null,
   border = "none",
@@ -19,11 +21,13 @@ const CustomSelect = ({
     <Select
       value={value}
       onChange={onChange}
+      placeholder={placeholder}
       indicator={<KeyboardArrowDown sx={{ color: arrowColor }} />}
       sx={{
         width: width,
         minWidth: "130px",
         bgcolor: backgroundColor,
+
         color: color,
         border: border,
         borderRadius: borderRadius,
