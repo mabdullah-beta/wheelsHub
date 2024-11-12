@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Sheet, Typography, IconButton, Box, Input } from "@mui/joy";
+import { Sheet, Typography, IconButton, Box, Input, Button } from "@mui/joy";
 import {
   Favorite,
   Notifications,
@@ -8,12 +8,25 @@ import {
   Search,
 } from "@mui/icons-material";
 import themes from "../themes";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleSearch = () => {
     setSearchOpen(!searchOpen);
+  };
+
+  const handleCreateListing = () => {
+    const token = localStorage.getItem("token"); // Get token from localStorage
+
+    if (token) {
+      navigate("/createListing");
+    } else {
+      // If no token, redirect to signup or login
+      navigate("/login"); // Change this to "/login" if you want to redirect to login
+    }
   };
 
   return (
@@ -73,6 +86,14 @@ const Header = () => {
             }}
           />
         </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleCreateListing}
+          sx={{ marginLeft: 2 }} // Add margin for spacing
+        >
+          Create Listing
+        </Button>
       </Box>
 
       <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -92,8 +113,6 @@ const Header = () => {
           <Favorite />
         </IconButton>
         <IconButton color="neutral" sx={{ fontSize: "1.5rem", padding: 0 }}>
-          {" "}
-          {/* Set fontSize and padding here */}
           <Notifications />
         </IconButton>
         <IconButton color="neutral" sx={{ fontSize: "1.5rem", padding: 0 }}>

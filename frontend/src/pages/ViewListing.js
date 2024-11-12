@@ -1,267 +1,368 @@
-import React, { useState } from "react";
-import { Box, Alert, CircularProgress } from "@mui/joy"; // Added CircularProgress
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  CardContent,
+  CardOverflow,
+  Divider,
+  Stack,
+  Typography,
+} from "@mui/joy";
+import { ReactComponent as Profile } from "../assets/Profill.svg";
+import { ReactComponent as Skyler } from "../assets/skyler.svg";
+import { ReactComponent as Henry } from "../assets/henry.svg";
+import { useParams } from "react-router-dom"; // Import useParams
+import { Heart } from "lucide-react";
+import { Rating } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ReactComponent as CarIcon } from "../assets/carImage.svg";
+import theme from "../themes";
 
-import ConfirmationSection from "../components/ViewListing/ConfirmationSection";
-import FormSection from "../components/ViewListing/FormSection";
-
-const ViewListing = () => {
-  const navigate = useNavigate();
-  const [isAgreed, setIsAgreed] = useState(false);
-  const [loading, setLoading] = useState(false); // Added loading state
-
-  const [formData, setFormData] = useState({
-    // Personal Info
-    name: "",
-    phoneNumber: "",
-    address: "",
-    townCity: "",
-    // Car Info
-    title: "",
-    make: "",
-    model: "",
-    variant: "",
-    mileage: "",
-    askingPrice: "",
-  });
-
-  const [errors, setErrors] = useState({});
-  const [submitStatus, setSubmitStatus] = useState({
-    show: false,
-    type: "",
-    message: "",
-  });
-
-  const personalInfoFields = [
-    { name: "name", label: "Name", placeholder: "Your name", type: "text" },
-    {
-      name: "phoneNumber",
-      label: "Phone Number",
-      placeholder: "Phone number",
-      type: "text",
-    },
-    { name: "address", label: "Address", placeholder: "Address", type: "text" },
-    {
-      name: "townCity",
-      label: "Town / City",
-      placeholder: "Town / City",
-      type: "text",
-    },
-  ];
-
-  const carInfoFields = [
-    {
-      name: "title",
-      label: "Title",
-      placeholder: "Your ad title",
-      type: "text",
-      sm: 12,
-    },
-    {
-      name: "make",
-      label: "Make",
-      placeholder: "Select your make",
-      type: "select",
-      options: [
-        { value: "toyota", label: "Toyota" },
-        { value: "honda", label: "Honda" },
-        { value: "bmw", label: "BMW" },
-      ],
-    },
-    {
-      name: "model",
-      label: "Model",
-      placeholder: "Select your model",
-      type: "select",
-      options: [
-        { value: "camry", label: "Camry" },
-        { value: "corolla", label: "Corolla" },
-        { value: "rav4", label: "RAV4" },
-      ],
-    },
-    {
-      name: "variant",
-      label: "Variant",
-      placeholder: "Select your sub-model",
-      type: "select",
-      options: [
-        { value: "le", label: "LE" },
-        { value: "se", label: "SE" },
-        { value: "xle", label: "XLE" },
-      ],
-    },
-    {
-      name: "mileage",
-      label: "Mileage",
-      placeholder: "Enter current mileage",
-      type: "text",
-    },
-    {
-      name: "askingPrice",
-      label: "Asking price",
-      placeholder: "Enter your ask",
-      type: "text",
-      startDecorator: "$",
-    },
-  ];
-
-  const handleInputChange = (name, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }));
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    // Validate Personal Info
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.phoneNumber.trim())
-      newErrors.phoneNumber = "Phone number is required";
-    if (!formData.address.trim()) newErrors.address = "Address is required";
-    if (!formData.townCity.trim()) newErrors.townCity = "Town/City is required";
-
-    // Validate Car Info
-    if (!formData.title.trim()) newErrors.title = "Title is required";
-    if (!formData.make) newErrors.make = "Make is required";
-    if (!formData.model) newErrors.model = "Model is required";
-    if (!formData.variant) newErrors.variant = "Variant is required";
-    if (!formData.mileage.trim()) newErrors.mileage = "Mileage is required";
-    if (!formData.askingPrice.trim())
-      newErrors.askingPrice = "Asking price is required";
-
-    return newErrors;
-  };
-
-  const handleSubmit = async () => {
-    if (!isAgreed) {
-      setSubmitStatus({
-        show: true,
-        type: "danger",
-        message:
-          "You must agree to the terms and conditions before submitting.",
-      });
-      return;
-    }
-    const newErrors = validateForm();
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      setSubmitStatus({
-        show: true,
-        type: "danger",
-        message: "Please fill in all required fields",
-      });
-      return;
-    }
-
-    try {
-      // Show loading spinner
-      setLoading(true);
-
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Log the form data
-      console.log("Form submitted successfully:", formData);
-
-      setSubmitStatus({
-        show: true,
-        type: "success",
-        message: "Listing submitted successfully!",
-      });
-
-      // Reset form after successful submission
-      setFormData({
-        name: "",
-        phoneNumber: "",
-        address: "",
-        townCity: "",
-        title: "",
-        make: "",
-        model: "",
-        variant: "",
-        mileage: "",
-        askingPrice: "",
-      });
-
-      // After loading is done, navigate
-      setLoading(false);
-      navigate("/productPage");
-    } catch (error) {
-      setLoading(false); // Hide loading spinner if error
-      setSubmitStatus({
-        show: true,
-        type: "danger",
-        message: "Error submitting form. Please try again.",
-      });
-    }
-  };
-
-  return (
-    <Box
+// Reusable ProductDetailItem Component
+const ProductDetailItem = ({ label, value }) => (
+  <Stack
+    spacing={1}
+    direction="row"
+    alignItems="center"
+    justifyContent="space-between"
+  >
+    <Typography
+      level="body3"
       sx={{
-        maxWidth: "800px",
-        minWidth: "300px",
-        mx: "auto",
-        p: 3,
-        width: "90%",
-        minHeight: "100vh",
+        mr: 1,
+        color: "#90A3BF",
+        fontWeight: "400",
+        textTransform: "capitalize",
       }}
     >
-      {submitStatus.show && (
-        <Alert
-          color={submitStatus.type === "success" ? "success" : "danger"}
-          sx={{ mb: 2 }}
-          onClose={() =>
-            setSubmitStatus({ show: false, type: "", message: "" })
-          }
+      {label}
+    </Typography>
+    <Typography
+      level="body3"
+      sx={{ color: "#596780", fontWeight: "600", textTransform: "capitalize" }}
+    >
+      {value}
+    </Typography>
+  </Stack>
+);
+
+const ViewListing = () => {
+  const [product, setProduct] = useState(null);
+  const [bids, setBids] = useState([]);
+  const [newProduct, setNewProduct] = useState(null);
+
+  const { id } = useParams(); // Get ID from URL parameters
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/deals/${id}`);
+        if (response.data.success) {
+          setNewProduct(response.data.deal); // Set product data
+        }
+        console.log(newProduct);
+      } catch (error) {
+        console.error("Failed to fetch product:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  useEffect(() => {
+    if (newProduct) {
+      console.log(newProduct);
+    }
+  }, [newProduct]);
+  // Simulating an API call to fetch product details and bids
+  useEffect(() => {
+    const fetchData = async () => {
+      const productData = {
+        name: "Nissan GT-R",
+        description:
+          "NISMO has become the embodiment of Nissan's outstanding performance, inspired by the most unforgiving proving ground, the 'race track'.",
+
+        rating: 4,
+        reviews: 450,
+        type: "Sport",
+        steering: "Manual",
+        capacity: "2 Person",
+        gasoline: "70L",
+        topBid: 88666,
+        author: {
+          name: "Alex Stanton",
+          role: "CEO at Bukalapak",
+        },
+      };
+
+      const bidData = [
+        {
+          id: 1,
+          user: "Tom Henry",
+          amount: 88666,
+          date: "21 July 2022",
+          avatar: Henry, // Replace with actual avatar image path
+          role: "Manager",
+          phone: "+1 234 567 890",
+        },
+        {
+          id: 2,
+          user: "Skyler Dias",
+          amount: 82990,
+          date: "20 July 2022",
+          avatar: Skyler, // Replace with actual avatar image path
+          role: "Designer",
+          phone: "+1 987 654 321",
+        },
+      ];
+
+      setProduct(productData);
+      setBids(bidData);
+    };
+
+    fetchData();
+  }, []);
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <Box sx={{ pb: 3 }}>
+      <Box
+        sx={{
+          mx: "auto",
+          pt: 2,
+          gap: 2,
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          width: "100%",
+        }}
+      >
+        <CardOverflow
+          sx={{
+            flex: { xs: "1 1 100%", md: "1 1 50%" },
+            p: 3,
+            borderRadius: "12px",
+            position: "relative",
+            bgcolor: "#3563E9",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-          {submitStatus.message}
-        </Alert>
-      )}
+          <Stack sx={{ pt: 5, width: "100%" }}>
+            <Stack
+              spacing={2}
+              sx={{ color: "white", mb: 8, width: { xs: "100%", md: "50%" } }}
+            >
+              <Typography level="h2" sx={{ color: "white", mb: 2 }}>
+                Sports car with the best design and acceleration
+              </Typography>
+              <Typography level="body-sm" sx={{ color: "white" }}>
+                {newProduct.title}
+              </Typography>
+            </Stack>
+          </Stack>
 
-      {/* Show loading spinner */}
-      {loading && (
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-          <CircularProgress />
-        </Box>
-      )}
+          <Box
+            sx={{
+              maxWidth: { xs: "300px", md: "400px" },
+              width: "100%",
+              alignSelf: "flex-start",
+              display: "flex",
+              justifyContent: "center",
+              paddingBottom: { xs: 4, md: 0 },
+            }}
+          >
+            <CarIcon
+              sx={{ width: "100%", height: "auto", objectFit: "contain" }}
+            />
+          </Box>
+        </CardOverflow>
 
-      <FormSection
-        title="Personal Info"
-        subtitle="Please enter your personal info"
-        fields={personalInfoFields}
-        step="Step 1 of 3"
-        formData={formData}
-        errors={errors}
-        onInputChange={handleInputChange}
-      />
+        {/* Right Section with Product Info and Bids */}
+        <CardContent
+          sx={{
+            p: 3,
+            backgroundColor: "white",
+            flex: { xs: "1 1 100%", md: "1 1 50%" },
+            borderRadius: "12px",
+          }}
+        >
+          {/* Product Information */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "start",
+            }}
+          >
+            <Stack spacing={1} sx={{ width: "100%", mb: 5 }}>
+              <Stack direction="row" justifyContent="space-between">
+                <Typography level="h4">
+                  {newProduct.make} - {newProduct.model}
+                </Typography>
+                <Heart />
+              </Stack>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Rating
+                  value={product.rating}
+                  readOnly
+                  sx={{ "& .MuiRating-iconFilled": { color: "#FFD700" } }}
+                />
+                <Typography level="body-sm">
+                  ({product.reviews}+ Reviews)
+                </Typography>
+              </Stack>
+            </Stack>
+          </Box>
 
-      <FormSection
-        title="Car Info"
-        subtitle="Please enter your car info"
-        fields={carInfoFields}
-        step="Step 2 of 3"
-        formData={formData}
-        errors={errors}
-        onInputChange={handleInputChange}
-      />
+          <Typography level="body-md" sx={{ color: "neutral.600", mb: 5 }}>
+            {newProduct.description}
+          </Typography>
 
-      <ConfirmationSection
-        onSubmit={handleSubmit}
-        isAgreed={isAgreed}
-        setIsAgreed={setIsAgreed}
-      />
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              columnGap: 5,
+              rowGap: 3,
+              mb: 5,
+            }}
+          >
+            <ProductDetailItem label="Type" value={newProduct.body_type} />
+            <ProductDetailItem label="Capacity" value={product.capacity} />
+            <ProductDetailItem
+              label="Steering"
+              value={newProduct.transmission}
+            />
+            <ProductDetailItem
+              label={newProduct.fuel_type}
+              value={newProduct.engine_capacity}
+            />
+          </Box>
+
+          {/* Owner and Bid Info */}
+          <Stack direction="column" spacing={2} sx={{ mb: 5 }}>
+            <Typography
+              level="body-md"
+              sx={{ color: "#1A202C", fontWeight: "700" }}
+            >
+              Owned by:
+            </Typography>
+
+            <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <Profile size="lg" />
+                <Stack spacing={0.5}>
+                  <Typography level="body-md" fontWeight="bold">
+                    {product.author.name}
+                  </Typography>
+                  <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
+                    {product.author.role}
+                  </Typography>
+                </Stack>
+              </Stack>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <Stack spacing={0.5} alignItems="flex-end">
+                  <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
+                    21 July 2024
+                  </Typography>
+                  <Rating
+                    value={product.rating}
+                    readOnly
+                    sx={{ "& .MuiRating-iconFilled": { color: "#FFD700" } }}
+                  />
+                </Stack>
+              </Stack>
+            </Stack>
+            <Divider sx={{ px: 4 }} />
+          </Stack>
+
+          {/* Place Bid Button */}
+          <Stack direction="row" justifyContent="space-between" sx={{ mt: 3 }}>
+            <Typography level="h2">
+              ${Number(newProduct.price).toLocaleString()}
+            </Typography>
+            <Button size="lg" sx={{ bgcolor: "#3563E9" }}>
+              Place Bid
+            </Button>
+          </Stack>
+        </CardContent>
+      </Box>
+      <Box sx={{ mt: 5, p: 3, borderRadius: "12px", bgcolor: "white" }}>
+        <Stack direction="row" alignItems="flex-start">
+          <Typography
+            level="h5"
+            sx={{ fontSize: "24px", fontWeight: "700", mb: 2, mr: 1 }}
+          >
+            Bids:
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: theme.colors.primary,
+              color: "white",
+              borderRadius: "8px",
+              px: 1.5,
+              py: 1,
+              fontSize: "14px",
+              fontWeight: "700",
+            }}
+          >
+            {String(bids.length).padStart(2, "0")}
+          </Box>
+        </Stack>
+
+        <Stack spacing={2}>
+          {bids.map((bid) => (
+            <Stack
+              key={bid.id}
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              sx={{ py: 1 }}
+            >
+              <Stack direction="row" justifyContent="space-between">
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  <bid.avatar size="lg" />
+                  <Stack spacing={0.5}>
+                    <Typography level="body-md" fontWeight="bold">
+                      {bid.user}
+                    </Typography>
+                    <Stack direction="row" spacing={2}>
+                      <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
+                        {bid.role}
+                      </Typography>
+                      <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
+                        {bid.phone}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                </Stack>
+              </Stack>
+
+              <Stack direction="column" alignItems="flex-end">
+                <Typography level="h5" fontWeight="bold">
+                  ${Number(bid.amount).toLocaleString()}
+                </Typography>
+                <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
+                  {bid.date}
+                </Typography>
+              </Stack>
+            </Stack>
+          ))}
+        </Stack>
+      </Box>
     </Box>
   );
 };
