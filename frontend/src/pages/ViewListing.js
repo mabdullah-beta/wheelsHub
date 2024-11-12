@@ -356,46 +356,47 @@ const ViewListing = () => {
             {String(newbids.length).padStart(2, "0")}
           </Box>
         </Stack>
-
-        <Stack spacing={2}>
-          {newbids.map((bid) => (
-            <Stack
-              key={bid.id}
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              sx={{ py: 1 }}
-            >
-              <Stack direction="row" justifyContent="space-between">
-                <Stack direction="row" alignItems="center" spacing={2}>
-                  <bid.avatar size="lg" />
-                  <Stack spacing={0.5}>
-                    <Typography level="body-md" fontWeight="bold">
-                      {bid.user}
-                    </Typography>
-                    <Stack direction="row" spacing={2}>
-                      <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
-                        {bid.role}
+        {isSeller && (
+          <Stack spacing={2}>
+            {newbids.map((bid) => (
+              <Stack
+                key={bid.id}
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{ py: 1 }}
+              >
+                <Stack direction="row" justifyContent="space-between">
+                  <Stack direction="row" alignItems="center" spacing={2}>
+                    <bid.avatar size="lg" />
+                    <Stack spacing={0.5}>
+                      <Typography level="body-md" fontWeight="bold">
+                        {bid.user}
                       </Typography>
-                      <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
-                        {bid.phone}
-                      </Typography>
+                      <Stack direction="row" spacing={2}>
+                        <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
+                          {bid.role}
+                        </Typography>
+                        <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
+                          {bid.phone}
+                        </Typography>
+                      </Stack>
                     </Stack>
                   </Stack>
                 </Stack>
-              </Stack>
 
-              <Stack direction="column" alignItems="flex-end">
-                <Typography level="h5" fontWeight="bold">
-                  ${Number(bid.amount).toLocaleString()}
-                </Typography>
-                <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
-                  {bid.date}
-                </Typography>
+                <Stack direction="column" alignItems="flex-end">
+                  <Typography level="h5" fontWeight="bold">
+                    ${Number(bid.amount).toLocaleString()}
+                  </Typography>
+                  <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
+                    {bid.date}
+                  </Typography>
+                </Stack>
               </Stack>
-            </Stack>
-          ))}
-        </Stack>
+            ))}
+          </Stack>
+        )}
       </Box>
 
       <PlaceBidModal
