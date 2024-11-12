@@ -3,10 +3,12 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.db.models import Q
+import uuid
 
 
 # Import db models 
-from ..models import Deal
+from ..models import Deal, Bid
+from django.contrib.auth.models import User
 
 # Extras
 from ..serializers import DealSerializer
@@ -90,7 +92,7 @@ def deals(request):
 
         # Add details 
         data['seller'] = request.user.id 
-        data["status"] = "pending"
+        data["status"] = "active"
 
         # Get the data from frontend
         serializer = DealSerializer(data=data)
@@ -119,10 +121,54 @@ def get_deal_by_id(request, deal_id):
         # Serialize the object, because python objects cannot be passed without first converting them to dict
         serializer = DealSerializer(deal)
 
+        # Init bids
+        bids = []
+
+        # Check if seller
+        is_seller = deal.seller == uuid.UUID(int=request.user.id) if request.user.id is not None else False
+        
+        # Check if this is the listing of the current user
+        if is_seller:
+
+            # Get the bids
+            data = Bid.objects.filter(deal=deal.id).exclude(status='pending')
+
+            # Resolve bid information with bidder name
+            for bid in data:
+
+                # Get user
+                buyer = User.objects.get(id=bid.buyer)
+
+                # Add info to bids
+                bids.append({ 
+                    
+                    "id": bid.id, 
+                    "amount": bid.amount, 
+                    "message": bid.message, 
+                    "status": bid.status, 
+                    "contact": bid.contact if bid.status == "accepted" else f"{bid.contact[0]}{'*' * (len(bid.contact) - 2)}{bid.contact[-1]}", 
+                    "buyer": bid.buyer, "buyer_name": f"{buyer.first_name} {buyer.last_name}" 
+        
+                })
+
         # Return json
-        return Response({ "success": True, "deal": serializer.data })
+        return Response({ "success": True, "is_seller": is_seller, "deal": serializer.data, "bids": bids })
 
     except Deal.DoesNotExist:
 
         # Failed to get the data
         return Response({ "success": False }, status=404)
+    
+# Get deals of a user
+@api_view(['GET'])
+@permission_classes([IsAuthenticated]) 
+def user_deals(request):
+
+    # Request server to get all deals
+    deals = Deal.objects.filter(seller= request.user.id)
+
+    # Serialize data because it needs to converted from python object to json
+    serializer = DealSerializer(deals, many=True)
+
+    # Return json response
+    return Response({ "success": True, "deals": serializer.data })

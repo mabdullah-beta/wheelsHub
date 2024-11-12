@@ -49,7 +49,6 @@ class Deal(models.Model):
     status = models.CharField(max_length=20, choices=[
         ('active', 'Active'),
         ('sold', 'Sold'),
-        ('pending', 'Pending'),
         ('closed', 'Closed')
     ])
     created_at = models.DateTimeField(auto_now_add=True)
@@ -58,5 +57,26 @@ class Deal(models.Model):
     class Meta:
         db_table = 'deals'
 
+class Bid(models.Model):
+    
+    # Automatically generate a unique UUID for each bid
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
+    # UUIDs for the deal and buyer
+    deal = models.UUIDField()
+    buyer = models.UUIDField()
 
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    message = models.TextField(blank=True, null=True)
+    contact = models.CharField(max_length=15, null=False)
+
+    status = models.CharField(max_length=10, default='pending', choices=[
+        ('pending', 'Pending'),
+        ('placed', 'Placed'),
+        ('accepted', 'Accepted')
+    ])
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'bids'

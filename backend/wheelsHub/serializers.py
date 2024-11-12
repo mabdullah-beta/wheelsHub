@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Deal 
+from .models import Deal, Bid
 
 class DealSerializer(serializers.ModelSerializer):
 
@@ -9,13 +9,24 @@ class DealSerializer(serializers.ModelSerializer):
         model = Deal
         fields = '__all__'  
 
+class BidSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = Bid
+        fields = '__all__'  
 
 class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         
         model = User
-        fields = ('username', 'password')
+        fields = ('username', 'first_name', 'last_name', 'password')
+        extra_kwargs = {
+            'username': {'required': True},
+            'first_name': {'required': True},
+            'last_name': {'required': True},
+        }
 
     def create(self, validated_data):
 
