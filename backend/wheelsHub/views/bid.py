@@ -53,12 +53,43 @@ def create_bid(request, deal_id):
                 }
             ],
             mode='payment',
-            success_url = f"{ backend }/bids/{ bid.id }/?session_id={{CHECKOUT_SESSION_ID}}",
+            success_url = f"{ backend }/bids/{ bid.id }/activate?session_id={{CHECKOUT_SESSION_ID}}",
             cancel_url = frontend,
         )
 
         # Return bid id
         return Response({ "success": True, "bid": bid.id, "redirect_url": checkout_session.url })
+
+    except Deal.DoesNotExist:
+
+        return Response({ "success": False }, status=404)
+    
+# Request unclocking a bid
+@api_view(['POST'])
+@permission_classes([IsAuthenticated]) 
+def unlock_bid(request, bid_id):
+
+    try:
+        # Get bid
+        bid = Bid.objects.get(id=bid_id)
+
+        # Then create a checkout session for processing payment
+        checkout_session = stripe.checkout.Session.create(
+
+            line_items=[
+                {
+                    # Provide the exact Price ID for accepting a bid
+                    'price': 'price_1QKKdlITNyBNaHGFkjlRptHk',
+                    'quantity': 1,
+                }
+            ],
+            mode='payment',
+            success_url = f"{ backend }/bids/{ bid.id }/accept?session_id={{CHECKOUT_SESSION_ID}}",
+            cancel_url = frontend,
+        )
+
+        # Return bid id
+        return Response({ "success": True, "redirect_url": checkout_session.url })
 
     except Deal.DoesNotExist:
 
@@ -80,6 +111,28 @@ def activate_bid(request, bid_id):
 
         # Redirect user to frontend 
         return redirect(f"{ frontend }/bids")
+
+    except Bid.DoesNotExist:
+
+        return Response({ "success": False }, status=404)
+    
+
+# Accept bid
+@api_view(['GET'])
+def accept_bid(request, bid_id):
+
+    try:
+        # Get bid
+        bid = Bid.objects.get(id=bid_id)
+
+        # Set status to placed
+        bid.status = "accepted"
+
+        # Save the bid to the database
+        bid.save()
+
+        # Redirect user to frontend 
+        return redirect(f"{ frontend }/view?id={ bid.deal }")
 
     except Bid.DoesNotExist:
 

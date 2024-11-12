@@ -12,7 +12,9 @@ urlpatterns = [
     path('deals/<uuid:deal_id>/bids/', views.create_bid, name='create_bid'),
 
     # Bid
-    path('bids/<uuid:bid_id>/', views.activate_bid, name='activate_bid'),
+    path('bids/<uuid:bid_id>/unlock', views.unlock_bid, name='unlock_bid'),
+    path('bids/<uuid:bid_id>/accept', views.accept_bid, name='accept_bid'),
+    path('bids/<uuid:bid_id>/activate', views.activate_bid, name='activate_bid'),
 
     # Auth routes
     path('auth/register/', views.register_user, name='register'),

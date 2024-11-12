@@ -124,8 +124,6 @@ def get_deal_by_id(request, deal_id):
         # Init bids
         bids = []
 
-        print(request.user.id)
-
         # Check if seller
         is_seller = deal.seller == uuid.UUID(int=request.user.id) if request.user.id is not None else False
         
@@ -133,7 +131,7 @@ def get_deal_by_id(request, deal_id):
         if is_seller:
 
             # Get the bids
-            data = Bid.objects.filter(deal=deal.id, status='placed')
+            data = Bid.objects.filter(deal=deal.id).exclude(status='pending')
 
             # Resolve bid information with bidder name
             for bid in data:
@@ -142,7 +140,16 @@ def get_deal_by_id(request, deal_id):
                 buyer = User.objects.get(id=bid.buyer)
 
                 # Add info to bids
-                bids.append({ "id": bid.id, "amount": bid.amount, "message": bid.message, "status": bid.status, "buyer": bid.buyer, "buyer_name": f"{buyer.first_name} {buyer.last_name}" })
+                bids.append({ 
+                    
+                    "id": bid.id, 
+                    "amount": bid.amount, 
+                    "message": bid.message, 
+                    "status": bid.status, 
+                    "contact": bid.contact if bid.status == "accepted" else f"{bid.contact[0]}{'*' * (len(bid.contact) - 2)}{bid.contact[-1]}", 
+                    "buyer": bid.buyer, "buyer_name": f"{buyer.first_name} {buyer.last_name}" 
+        
+                })
 
         # Return json
         return Response({ "success": True, "is_seller": is_seller, "deal": serializer.data, "bids": bids })

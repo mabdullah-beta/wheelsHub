@@ -70,13 +70,12 @@ class Bid(models.Model):
     message = models.TextField(blank=True, null=True)
     contact = models.CharField(max_length=15, null=False)
 
-    STATUS_CHOICES = [
+    status = models.CharField(max_length=10, default='pending', choices=[
         ('pending', 'Pending'),
         ('placed', 'Placed'),
         ('accepted', 'Accepted')
-    ]
-    
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    ])
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
