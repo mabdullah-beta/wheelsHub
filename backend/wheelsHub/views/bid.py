@@ -25,18 +25,19 @@ def create_bid(request, deal_id):
     # Get data
     amount = request.data.get('amount')
     message = request.data.get('message', '')
+    contact = request.data.get('phone_number', '')
 
     # Validate required fields
-    if not amount:
+    if not amount or not contact:
 
-        return Response({ "success": False, "message": "Amount is required" }, status=422)
+        return Response({ "success": False, "message": "Amount and contact number is required" }, status=422)
 
     try:
         # Check if the deal exists (optional but recommended)
         deal = Deal.objects.get(id=deal_id)
 
         # Create a new bid instance
-        bid = Bid(deal=deal.id, buyer=request.user.id, amount=amount, message=message, status='pending')
+        bid = Bid(deal=deal.id, buyer=request.user.id, amount=amount, contact=contact, message=message, status='pending')
 
         # Save the bid to the database
         bid.save()
@@ -78,7 +79,7 @@ def activate_bid(request, bid_id):
         bid.save()
 
         # Redirect user to frontend 
-        return redirect(f"{ frontend }/deal?={ bid.deal }")
+        return redirect(f"{ frontend }/bids")
 
     except Bid.DoesNotExist:
 
