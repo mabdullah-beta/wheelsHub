@@ -61,7 +61,11 @@ const ViewListing = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/deals/${id}`);
+        const response = await axios.get(`http://localhost:8000/deals/${id}/`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        });
         if (response.data.success) {
           setNewProduct(response.data.deal); // Set product data
         }
