@@ -15,11 +15,11 @@ import { ReactComponent as Skyler } from "../assets/skyler.svg";
 import { ReactComponent as Henry } from "../assets/henry.svg";
 import { useParams } from "react-router-dom"; // Import useParams
 import { Heart } from "lucide-react";
-import { Rating } from "@mui/material";
 
 import axios from "axios";
 import { ReactComponent as CarIcon } from "../assets/carImage.svg";
 import theme from "../themes";
+import PlaceBidModal from "../components/UniversalComponents/PlaceBidModal";
 
 // Reusable ProductDetailItem Component
 const ProductDetailItem = ({ label, value }) => (
@@ -53,8 +53,17 @@ const ViewListing = () => {
   const [product, setProduct] = useState(null);
   const [bids, setBids] = useState([]);
   const [newProduct, setNewProduct] = useState(null);
+  const [isSeller, setIsSeller] = useState(null);
+  const [sellerName, setSellerName] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
+  const [newbids, setNewBids] = useState([]);
 
   const { id } = useParams(); // Get ID from URL parameters
+  const [dealId, setDealId] = useState(id);
 
   const [loading, setLoading] = useState(true);
 
@@ -63,11 +72,15 @@ const ViewListing = () => {
       try {
         const response = await axios.get(`http://localhost:8000/deals/${id}/`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
+        console.log(response);
+        setIsSeller(response.data.is_seller);
+
         if (response.data.success) {
           setNewProduct(response.data.deal); // Set product data
+          setNewBids(response.data.bids);
         }
       } catch (error) {
         console.error("Failed to fetch product:", error);
@@ -81,10 +94,10 @@ const ViewListing = () => {
 
   useEffect(() => {
     if (newProduct) {
-      console.log(newProduct); // Log product data once it's set
+      console.log(newProduct);
     }
   }, [newProduct]);
-  // Simulating an API call to fetch product details and bids
+
   useEffect(() => {
     const fetchData = async () => {
       const productData = {
@@ -241,16 +254,6 @@ const ViewListing = () => {
                 </Typography>
                 <Heart />
               </Stack>
-              <Stack direction="row" spacing={1} alignItems="center">
-                <Rating
-                  value={product.rating}
-                  readOnly
-                  sx={{ "& .MuiRating-iconFilled": { color: "#FFD700" } }}
-                />
-                <Typography level="body-sm">
-                  ({product.reviews}+ Reviews)
-                </Typography>
-              </Stack>
             </Stack>
           </Box>
 
@@ -303,13 +306,8 @@ const ViewListing = () => {
               <Stack direction="row" alignItems="center" spacing={2}>
                 <Stack spacing={0.5} alignItems="flex-end">
                   <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
-                    21 July 2024
+                    {newProduct.created_at}
                   </Typography>
-                  <Rating
-                    value={product.rating}
-                    readOnly
-                    sx={{ "& .MuiRating-iconFilled": { color: "#FFD700" } }}
-                  />
                 </Stack>
               </Stack>
             </Stack>
@@ -321,9 +319,15 @@ const ViewListing = () => {
             <Typography level="h2">
               ${Number(newProduct.price).toLocaleString()}
             </Typography>
-            <Button size="lg" sx={{ bgcolor: "#3563E9" }}>
-              Place Bid
-            </Button>
+            {!isSeller && (
+              <Button
+                size="lg"
+                sx={{ bgcolor: "#3563E9" }}
+                onClick={handleOpenModal}
+              >
+                Place Bid
+              </Button>
+            )}
           </Stack>
         </CardContent>
       </Box>
@@ -349,12 +353,12 @@ const ViewListing = () => {
               fontWeight: "700",
             }}
           >
-            {String(bids.length).padStart(2, "0")}
+            {String(newbids.length).padStart(2, "0")}
           </Box>
         </Stack>
 
         <Stack spacing={2}>
-          {bids.map((bid) => (
+          {newbids.map((bid) => (
             <Stack
               key={bid.id}
               direction="row"
@@ -393,6 +397,12 @@ const ViewListing = () => {
           ))}
         </Stack>
       </Box>
+
+      <PlaceBidModal
+        open={isModalOpen}
+        handleClose={handleCloseModal}
+        dealId={dealId}
+      />
     </Box>
   );
 };
