@@ -10,10 +10,14 @@ const CreateListing = () => {
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: "",
-    phone_number: "",
-    address: "",
-    town_city: "",
+    year: "",
+    location: "",
+    description: "",
+    transmission: "",
+    condition: "",
+    body_type: "",
+    fuel_type: "",
+    engine_capacity: "",
     title: "",
     make: "",
     model: "",
@@ -21,7 +25,6 @@ const CreateListing = () => {
     mileage: "",
     asking_price: "",
   });
-
   const [errors, setErrors] = useState({});
   const [submitStatus, setSubmitStatus] = useState({
     show: false,
@@ -29,19 +32,51 @@ const CreateListing = () => {
     message: "",
   });
 
-  const personalInfoFields = [
-    { name: "name", label: "Name", placeholder: "Your name", type: "text" },
+  const carfeatures = [
     {
-      name: "phone_number",
-      label: "Phone Number",
-      placeholder: "Phone number",
+      name: "transmission",
+      label: "Transmission",
+      placeholder: "Transmission",
       type: "text",
     },
-    { name: "address", label: "Address", placeholder: "Address", type: "text" },
     {
-      name: "town_city",
-      label: "Town / City",
-      placeholder: "Town / City",
+      name: "condition",
+      label: "Condition",
+      placeholder: "Condition",
+      type: "text",
+    },
+    {
+      name: "body_type",
+      label: "Body Type",
+      placeholder: "Body Type",
+      type: "text",
+    },
+    {
+      name: "fuel_type",
+      label: "Fuel Type",
+      placeholder: "Fuel Type",
+      type: "text",
+    },
+    {
+      name: "engine_capacity",
+      label: "Engine Capacity",
+      placeholder: "Engine Capacity",
+      type: "text",
+    },
+  ];
+  const personalInfoFields = [
+    { name: "year", label: "Year", placeholder: "Year", type: "text" },
+
+    {
+      name: "location",
+      label: "Location",
+      placeholder: "Location",
+      type: "text",
+    },
+    {
+      name: "description",
+      label: "Description",
+      placeholder: "Description",
       type: "text",
     },
   ];
@@ -95,12 +130,20 @@ const CreateListing = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.phone_number.trim())
-      newErrors.phone_number = "Phone number is required";
-    if (!formData.address.trim()) newErrors.address = "Address is required";
-    if (!formData.town_city.trim())
-      newErrors.town_city = "Town/City is required";
+    if (!formData.year.trim()) newErrors.year = "Year is required";
+    if (!formData.location.trim()) newErrors.location = "Location is required";
+    if (!formData.description.trim())
+      newErrors.description = "Description is required";
+    if (!formData.transmission.trim())
+      newErrors.transmission = "Transmission is required";
+    if (!formData.condition.trim())
+      newErrors.condition = "Condition is required";
+    if (!formData.body_type.trim())
+      newErrors.body_type = "Body Type is required";
+    if (!formData.fuel_type.trim())
+      newErrors.fuel_type = "Fuel Type is required";
+    if (!formData.engine_capacity.trim())
+      newErrors.engine_capacity = "Engine Capacity is required";
 
     if (!formData.title.trim()) newErrors.title = "Title is required";
     if (!formData.make.trim()) newErrors.make = "Make is required";
@@ -114,6 +157,7 @@ const CreateListing = () => {
   };
 
   const handleSubmit = async () => {
+    // Check if user agreed to terms
     if (!isAgreed) {
       setSubmitStatus({
         show: true,
@@ -124,8 +168,8 @@ const CreateListing = () => {
       return;
     }
 
+    // Form validation
     const newErrors = validateForm();
-
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setSubmitStatus({
@@ -136,7 +180,8 @@ const CreateListing = () => {
       return;
     }
 
-    setLoading(true); // Show loading spinner
+    // Show loading spinner and submission message
+    setLoading(true);
     setSubmitStatus({
       show: true,
       type: "success",
@@ -145,32 +190,39 @@ const CreateListing = () => {
 
     // Prepare data for submission
     const dealData = {
-      seller: localStorage.getItem("token"), // Optionally include seller ID if needed
-      title: formData.title,
-      make: formData.make,
-      model: formData.model,
-      variant: formData.variant,
-      mileage: formData.mileage,
-      price: formData.asking_price, // Adjust according to backend expectations
-      body_type: "sedan",
-      condition: "new",
-      description: "It best in town",
-      engine_capacity: "10",
-      fuel_type: "gasoline",
+      title: formData.title ? formData.title.toLowerCase() : "",
+      make: formData.make ? formData.make.toLowerCase() : "",
+      model: formData.model ? formData.model.toLowerCase() : "",
+      variant: formData.variant ? formData.variant.toLowerCase() : "",
+      mileage: formData.mileage ? formData.mileage.toLowerCase() : "",
+      price: formData.asking_price ? formData.asking_price.toLowerCase() : "",
+      body_type: formData.body_type ? formData.body_type.toLowerCase() : "",
+      condition: formData.condition ? formData.condition.toLowerCase() : "",
+      description: formData.description
+        ? formData.description.toLowerCase()
+        : "",
+      engine_capacity: formData.engine_capacity
+        ? formData.engine_capacity.toLowerCase()
+        : "",
+      fuel_type: formData.fuel_type ? formData.fuel_type.toLowerCase() : "",
       image:
         "https://unsplash.com/photos/a-computer-screen-with-a-remote-control-on-it-s5kTY-Ve1c0",
-      // Add other fields as necessary
-      location: "Thailand",
-      transmission: "automatic",
-      year: "2022",
+      location: formData.location ? formData.location.toLowerCase() : "",
+      transmission: formData.transmission
+        ? formData.transmission.toLowerCase()
+        : "",
+      year: formData.year ? formData.year.toLowerCase() : "",
     };
+
+    dealData.image =
+      "https://unsplash.com/photos/a-computer-screen-with-a-remote-control-on-it-s5kTY-Ve1c0"; // Replace with actual image URL if available
 
     try {
       const response = await fetch("http://127.0.0.1:8000/deals/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Include token for authentication
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(dealData),
       });
@@ -183,25 +235,31 @@ const CreateListing = () => {
           type: "success",
           message: `Deal created successfully with ID ${data.deal}`,
         });
-        // Optionally reset form or navigate
+        // Reset form and navigate to view listing
         setFormData({
-          name: "",
-          phone_number: "",
-          address: "",
-          town_city: "",
           title: "",
           make: "",
           model: "",
           variant: "",
           mileage: "",
           asking_price: "",
+          body_type: "",
+          condition: "",
+          description: "",
+          engine_capacity: "",
+          fuel_type: "",
+          location: "",
+          transmission: "",
+          year: "",
         });
-        navigate("/"); // Redirect after successful submission
+        navigate(`/viewListing/${data.deal}`);
       } else {
+        const errorMessage =
+          data?.detail || "Failed to create deal. Please try again.";
         setSubmitStatus({
           show: true,
           type: "danger",
-          message: "Failed to create deal. Please try again.",
+          message: errorMessage,
         });
       }
     } catch (error) {
@@ -254,19 +312,29 @@ const CreateListing = () => {
       </Box>
 
       <FormSection
-        title="Personal Info"
-        subtitle="Please enter your personal info"
-        fields={personalInfoFields}
-        step="Step 1 of 3"
+        title="Car Info"
+        subtitle="Please enter your car info"
+        fields={carInfoFields}
+        step="Step 1 of 4"
+        formData={formData}
+        errors={errors}
+        onInputChange={handleInputChange}
+      />
+
+      <FormSection
+        title="Car Features"
+        subtitle="Please enter your car features"
+        fields={carfeatures}
+        step="Step 2 of 4"
         formData={formData}
         errors={errors}
         onInputChange={handleInputChange}
       />
       <FormSection
-        title="Car Info"
-        subtitle="Please enter your car info"
-        fields={carInfoFields}
-        step="Step 2 of 3"
+        title="Personal Info"
+        subtitle="Please enter your personal info"
+        fields={personalInfoFields}
+        step="Step 3 of 4"
         formData={formData}
         errors={errors}
         onInputChange={handleInputChange}

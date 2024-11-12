@@ -35,8 +35,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+   
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -55,7 +56,7 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': False, 
     'BLACKLIST_AFTER_ROTATION': False
 }
-
+CORS_ALLOW_ALL_ORIGINS = True  # Not recommended for production
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
@@ -139,4 +140,21 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+]
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'accept',
+    'x-requested-with',
+    'origin',
+]
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',  # Make sure OPTIONS is allowed
 ]

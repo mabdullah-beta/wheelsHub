@@ -16,8 +16,8 @@ import { useNavigate } from "react-router-dom";
 const API_URL = "http://127.0.0.1:8000/";
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState(""); // State for name
-  const [email, setEmail] = useState(""); // State for email
+  const [fullName, setFullName] = useState(""); // State for full name
+  const [username, setUsername] = useState(""); // State for username
   const [password, setPassword] = useState(""); // State for password
   const navigate = useNavigate();
 
@@ -28,15 +28,19 @@ const SignupPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission
 
+    // Split full name into first and last name
+    const [firstName, lastName] = fullName.split(" ");
+
     // Prepare data for submission
     const userData = {
-      username: name, // Adjust based on your backend expectations
-      email: email,
+      username: username, // Using username input
+      first_name: firstName, // Send first name
+      last_name: lastName, // Send last name
       password: password,
     };
 
     try {
-      const response = await fetch(`${API_URL}auth/register`, {
+      const response = await fetch(`${API_URL}auth/register/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,11 +51,10 @@ const SignupPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // If registration is successful, store token in localStorage
-
-        navigate("/"); // Redirect to home page
+        navigate("/login", {
+          state: { successMessage: "Account created successfully" },
+        });
       } else {
-        // Handle errors (e.g., display error messages)
         console.error(data.errors);
         alert("Registration failed. Please check your input.");
       }
@@ -96,16 +99,16 @@ const SignupPage = () => {
           sx={{ alignItems: "start" }}
         >
           <Typography level="body3" mb={1}>
-            Name
+            Full Name
           </Typography>
           <Input
-            placeholder="Enter your name"
+            placeholder="Enter your full name"
             size="lg"
             type="text"
             variant="soft"
             fullWidth
-            value={name}
-            onChange={(e) => setName(e.target.value)} // Update state on input change
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)} // Update state on input change
             sx={{
               "--Input-focusedThickness": "0",
               flex: 1,
@@ -119,16 +122,16 @@ const SignupPage = () => {
           />
 
           <Typography level="body3" mb={1}>
-            Email
+            Username
           </Typography>
           <Input
-            type="email"
+            placeholder="Enter your username"
             size="lg"
-            placeholder="Enter your email"
-            fullWidth
+            type="text"
             variant="soft"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)} // Update state on input change
+            fullWidth
+            value={username}
+            onChange={(e) => setUsername(e.target.value)} // Update state on input change
             sx={{
               "--Input-focusedThickness": "0",
               flex: 1,
