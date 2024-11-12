@@ -16,8 +16,8 @@ import { useNavigate } from "react-router-dom";
 const API_URL = "http://127.0.0.1:8000/";
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState(""); // State for name
-  const [username, setUsername] = useState(""); // State for email
+  const [fullName, setFullName] = useState(""); // State for full name
+  const [username, setUsername] = useState(""); // State for username
   const [password, setPassword] = useState(""); // State for password
   const navigate = useNavigate();
 
@@ -28,15 +28,14 @@ const SignupPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission
 
-    var names = name.split(" ");
+    // Split full name into first and last name
+    const [firstName, lastName] = fullName.split(" ");
 
     // Prepare data for submission
     const userData = {
-      username: username, // Adjust based on your backend expectations
-
-      first_name: names[0],
-      last_name: names.slice(1).join(" "),
-
+      username: username, // Using username input
+      first_name: firstName, // Send first name
+      last_name: lastName, // Send last name
       password: password,
     };
 
@@ -126,11 +125,11 @@ const SignupPage = () => {
             Username
           </Typography>
           <Input
-            type="text"
-            size="lg"
             placeholder="Enter your username"
-            fullWidth
+            size="lg"
+            type="text"
             variant="soft"
+            fullWidth
             value={username}
             onChange={(e) => setUsername(e.target.value)} // Update state on input change
             sx={{

@@ -10,19 +10,12 @@ const CarCard = ({ carData, onLikeToggle }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleCardClick = () => {
-   
-
- 
-      navigate(`/viewListing/${carData.id}`);
- 
+    navigate(`/viewListing/${carData.id}`);
   };
   return (
     <Card variant="outlined" sx={{ px: 3, py: 2 }} onClick={handleCardClick}>
-      
       <Box sx={{ mb: 5 }}>
-        
-        <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={0.5}>
-          
+        <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography level="h4">
             {carData.make} - {carData.model}{" "}
           </Typography>
@@ -31,7 +24,6 @@ const CarCard = ({ carData, onLikeToggle }) => {
         <Typography level="body2" sx={{ textTransform: "capitalize" }}>
           {carData.body_type}
         </Typography>
-
       </Box>
 
       <Box
@@ -89,8 +81,6 @@ const CarCard = ({ carData, onLikeToggle }) => {
           flexWrap: "wrap",
         }}
       >
-
-        {/* Fuel tank */}
         <Box
           sx={{
             display: "flex",
@@ -101,17 +91,15 @@ const CarCard = ({ carData, onLikeToggle }) => {
             bgcolor: "transparent",
           }}
         >
-          <GasolineIcon style={{ width: 18, height: 18 }} />
+          <GasolineIcon style={{ width: 24, height: 24 }} />
           <Typography
             level="body2"
             textTransform="capitalize"
-            sx={{ fontWeight: "600", fontSize: "12px" }}
+            sx={{ fontWeight: "600" }}
           >
             {carData.engine_capacity}L
           </Typography>
         </Box>
-
-        {/* Capacity */}
         <Box
           sx={{
             display: "flex",
@@ -122,34 +110,32 @@ const CarCard = ({ carData, onLikeToggle }) => {
             bgcolor: "transparent",
           }}
         >
-          <PeopleIcon style={{ width: 18, height: 18 }} />
+          <Transmission style={{ width: 24, height: 24 }} />
           <Typography
             level="body2"
             textTransform="capitalize"
-            sx={{ fontWeight: "600", fontSize: "12px" }}
-          >
-            {carData.people} People
-          </Typography>
-        </Box>
-
-        {/* Transmission */}
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            p: 0,
-            gap: 0.5,
-
-            bgcolor: "transparent",
-          }}
-        >
-          <Transmission style={{ width: 18, height: 18 }} />
-          <Typography
-            level="body2"
-            textTransform="capitalize"
-            sx={{ fontWeight: "600", fontSize: "12px" }}
+            sx={{ fontWeight: "600" }}
           >
             {carData.transmission}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            p: 0,
+            gap: 0.5,
+
+            bgcolor: "transparent",
+          }}
+        >
+          <PeopleIcon style={{ width: 24, height: 24 }} />
+          <Typography
+            level="body2"
+            textTransform="capitalize"
+            sx={{ fontWeight: "600" }}
+          >
+            {carData.people} People
           </Typography>
         </Box>
       </Box>
@@ -162,18 +148,11 @@ const CarCard = ({ carData, onLikeToggle }) => {
           mb: 1,
         }}
       >
-        
-        {/* Price */}
-        <Typography level="h4">$ {parseInt(carData.price)}</Typography>
-        
-        {/* Button */}
+        <Typography level="h4">${carData.price.toLocaleString()}</Typography>
         <Button
           size="sm"
           sx={{
-            alignItems: "center",
-            borderRadius: "8px",
-            fontSize: "12px",
-            fontWeight: "600",
+            alignItems: "start",
             justifyContent: "center",
             transition: "all 0.3s ease",
             bgcolor: "#3563E9",
