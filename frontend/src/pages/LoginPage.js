@@ -33,7 +33,7 @@ const LoginPage = () => {
     const userData = { username, password };
 
     try {
-      const response = await fetch(`${API_URL}auth/login`, {
+      const response = await fetch(`${API_URL}auth/login/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),

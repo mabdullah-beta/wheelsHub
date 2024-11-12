@@ -17,7 +17,7 @@ const API_URL = "http://127.0.0.1:8000/";
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState(""); // State for name
-  const [email, setEmail] = useState(""); // State for email
+  const [username, setUsername] = useState(""); // State for email
   const [password, setPassword] = useState(""); // State for password
   const navigate = useNavigate();
 
@@ -26,17 +26,23 @@ const SignupPage = () => {
   };
 
   const handleSubmit = async (event) => {
+
     event.preventDefault(); // Prevent default form submission
+
+    var names = name.split(" ");
 
     // Prepare data for submission
     const userData = {
-      username: name, // Adjust based on your backend expectations
-      email: email,
+      username: username, // Adjust based on your backend expectations
+      
+      first_name: names[0],
+      last_name: names.slice(1).join(' '),
+      
       password: password,
     };
 
     try {
-      const response = await fetch(`${API_URL}auth/register`, {
+      const response = await fetch(`${API_URL}auth/register/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,10 +102,10 @@ const SignupPage = () => {
           sx={{ alignItems: "start" }}
         >
           <Typography level="body3" mb={1}>
-            Name
+            Full Name
           </Typography>
           <Input
-            placeholder="Enter your name"
+            placeholder="Enter your full name"
             size="lg"
             type="text"
             variant="soft"
@@ -119,16 +125,16 @@ const SignupPage = () => {
           />
 
           <Typography level="body3" mb={1}>
-            Email
+            Username
           </Typography>
           <Input
-            type="email"
+            type="text"
             size="lg"
-            placeholder="Enter your email"
+            placeholder="Enter your username"
             fullWidth
             variant="soft"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)} // Update state on input change
+            value={username}
+            onChange={(e) => setUsername(e.target.value)} // Update state on input change
             sx={{
               "--Input-focusedThickness": "0",
               flex: 1,

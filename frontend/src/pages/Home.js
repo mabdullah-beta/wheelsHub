@@ -55,12 +55,16 @@ const Home = () => {
 
   return (
     <Box sx={{ padding: "50px 0px" }}>
+
       <HeroSection
         onFilterChange={handleFilterChange}
         onSearch={handleSearch}
       />
+
       <Box sx={{ mb: 6 }}>
+
         <Box sx={{ mb: 4 }}>
+          
           <Box
             sx={{
               display: "flex",
@@ -69,6 +73,7 @@ const Home = () => {
               mb: 2,
             }}
           >
+            
             <Typography level="body1" sx={{ ml: 2 }}>
               Popular Cars
             </Typography>
