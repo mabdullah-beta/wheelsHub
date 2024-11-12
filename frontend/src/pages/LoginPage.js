@@ -11,13 +11,16 @@ import {
 import theme from "../themes";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const API_URL = "http://127.0.0.1:8000/";
+
 const LoginPage = () => {
+  const location = useLocation();
+  const message = location.state?.message;
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState(""); // State for username
-  const [password, setPassword] = useState(""); // State for password
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleTogglePasswordVisibility = () => {
@@ -25,32 +28,23 @@ const LoginPage = () => {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
 
-    // Prepare data for submission
-    const userData = {
-      username: username, // Use username for login
-      password: password,
-    };
+    const userData = { username, password };
 
     try {
       const response = await fetch(`${API_URL}auth/login`, {
-        // Update this line
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // If login is successful, store token in localStorage
-        localStorage.setItem("token", data.access); // Save token
-        navigate("/"); // Redirect to home page
+        localStorage.setItem("token", data.access);
+        navigate("/");
       } else {
-        // Handle errors (e.g., display error messages)
         console.error(data);
         alert("Login failed. Please check your credentials.");
       }
@@ -66,16 +60,36 @@ const LoginPage = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        flexDirection: "column",
         minHeight: "100vh",
-        bgcolor: "#f4f6f8", // Light background color
+        bgcolor: "#f4f6f8",
+        px: 2, // Add padding for mobile devices
       }}
     >
+      {message && (
+        <Box
+          sx={{
+            mb: 3,
+            p: 2,
+            color: theme.colors.warningDark,
+            borderRadius: "8px",
+            width: "100%",
+            maxWidth: { xs: 300, sm: 400 },
+            textAlign: "center",
+            border: "1px solid blue",
+            bgcolor: theme.colors.primary,
+          }}
+        >
+          <Typography level="h4" sx={{ color: "white" }}>
+            {message}
+          </Typography>
+        </Box>
+      )}
       <Card
         sx={{
-          width: 400,
-          height: 450,
+          width: { xs: "100%", sm: 400 },
           py: 3,
-          px: 3,
+          px: { xs: 2, sm: 3 }, // Adjust padding for mobile
           display: "flex",
           justifyContent: "center",
           borderRadius: "12px",
@@ -85,7 +99,11 @@ const LoginPage = () => {
         <Typography
           level="h2"
           mb={1}
-          sx={{ color: theme.colors.primary, textAlign: "center" }}
+          sx={{
+            color: theme.colors.primary,
+            textAlign: "center",
+            fontSize: { xs: "1.5rem", sm: "2rem" },
+          }}
         >
           WheelsHub
         </Typography>
@@ -105,8 +123,8 @@ const LoginPage = () => {
             placeholder="Enter username"
             fullWidth
             variant="soft"
-            value={username} // Use username state variable
-            onChange={(e) => setUsername(e.target.value)} // Update state on input change
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             sx={{
               "--Input-focusedThickness": "0",
               flex: 1,
@@ -134,9 +152,9 @@ const LoginPage = () => {
                 edge="end"
                 aria-label="toggle password visibility"
                 sx={{
-                  fontSize: "1.5rem", // Adjust size of the icon
+                  fontSize: "1.5rem",
                   "&:hover": {
-                    color: "gray", // Hover color
+                    color: "gray",
                     bgcolor: "transparent",
                   },
                 }}
@@ -148,8 +166,8 @@ const LoginPage = () => {
                 )}
               </IconButton>
             }
-            value={password} // Use password state variable
-            onChange={(e) => setPassword(e.target.value)} // Update state on input change
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             sx={{
               "--Input-focusedThickness": "0",
               flex: 1,
@@ -163,7 +181,7 @@ const LoginPage = () => {
           />
 
           <Button
-            type="submit" // Set button type to submit for form submission
+            type="submit"
             fullWidth
             variant="solid"
             sx={{

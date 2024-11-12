@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Alert, CircularProgress } from "@mui/joy";
+import { Box, Alert, CircularProgress, Typography } from "@mui/joy";
 import { useNavigate } from "react-router-dom";
 import ConfirmationSection from "../components/ViewListing/ConfirmationSection";
 import FormSection from "../components/ViewListing/FormSection";
@@ -245,6 +245,13 @@ const CreateListing = () => {
           <CircularProgress />
         </Box>
       )}
+      <Box sx={{ gap: 2, mb: 3 }}>
+        <Typography level="h2"> Create ad</Typography>
+        <Typography level="body2">
+          {" "}
+          Give us information about the car and you to place an ad.
+        </Typography>
+      </Box>
 
       <FormSection
         title="Personal Info"

@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import { Sheet, Typography, IconButton, Box, Input, Button } from "@mui/joy";
-import {
-  Favorite,
-  Notifications,
-  Settings,
-  Person,
-  Search,
-} from "@mui/icons-material";
+import { Sheet, Typography, IconButton, Box, Input } from "@mui/joy";
+import { Person, Search, AddCircle } from "@mui/icons-material";
 import themes from "../themes";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { ReactComponent as Notify } from "../assets/notify.svg";
+import { ReactComponent as Like } from "../assets/likeIcon.svg";
+import { ReactComponent as Setting } from "../assets/settingsIcon.svg";
 
 const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current location
 
   const toggleSearch = () => {
     setSearchOpen(!searchOpen);
@@ -41,17 +39,19 @@ const Header = () => {
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Typography
-          level="h2"
-          sx={{
-            marginRight: 4,
-            color: themes.colors.primary,
-            fontWeight: "bold",
-            fontSize: { xs: "1.5rem", md: "2rem" },
-          }}
-        >
-          WheelsHub
-        </Typography>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <Typography
+            level="h2"
+            sx={{
+              marginRight: 4,
+              color: themes.colors.primary,
+              fontWeight: "bold",
+              fontSize: { xs: "1.5rem", md: "2rem" },
+            }}
+          >
+            WheelsHub
+          </Typography>
+        </Link>
 
         <Box
           sx={{
@@ -86,17 +86,22 @@ const Header = () => {
             }}
           />
         </Box>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleCreateListing}
-          sx={{ marginLeft: 2 }} // Add margin for spacing
-        >
-          Create Listing
-        </Button>
       </Box>
 
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: "6px" }}>
+        {location.pathname !== "/createListing" && (
+          <IconButton
+            color="primary"
+            onClick={handleCreateListing}
+            sx={{
+              fontSize: "1.8rem",
+              padding: 0,
+              marginLeft: 1,
+            }}
+          >
+            <AddCircle />
+          </IconButton>
+        )}
         <IconButton
           onClick={toggleSearch}
           sx={{
@@ -107,18 +112,36 @@ const Header = () => {
         >
           <Search />
         </IconButton>
-        <IconButton color="neutral" sx={{ fontSize: "1.5rem", padding: 0 }}>
+        <IconButton
+          color="neutral"
+          sx={{
+            padding: 0.25,
+            border: "2px solid #C3D4E9",
+            borderRadius: "50%",
+          }}
+        >
           {" "}
-          {/* Set fontSize and padding here */}
-          <Favorite />
+          <Like />
         </IconButton>
-        <IconButton color="neutral" sx={{ fontSize: "1.5rem", padding: 0 }}>
-          <Notifications />
+        <IconButton
+          color="neutral"
+          sx={{
+            padding: 0.25,
+            border: "2px solid #C3D4E9",
+            borderRadius: "50%",
+          }}
+        >
+          <Notify />
         </IconButton>
-        <IconButton color="neutral" sx={{ fontSize: "1.5rem", padding: 0 }}>
-          {" "}
-          {/* Set fontSize and padding here */}
-          <Settings />
+        <IconButton
+          color="neutral"
+          sx={{
+            padding: 0.25,
+            border: "2px solid #C3D4E9",
+            borderRadius: "50%",
+          }}
+        >
+          <Setting />
         </IconButton>
         <IconButton color="neutral" sx={{ fontSize: "1.5rem", padding: 0 }}>
           {" "}

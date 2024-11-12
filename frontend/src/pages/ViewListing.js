@@ -8,6 +8,8 @@ import {
   Stack,
   Typography,
 } from "@mui/joy";
+import { motion } from "framer-motion";
+
 import { ReactComponent as Profile } from "../assets/Profill.svg";
 import { ReactComponent as Skyler } from "../assets/skyler.svg";
 import { ReactComponent as Henry } from "../assets/henry.svg";
@@ -63,7 +65,6 @@ const ViewListing = () => {
         if (response.data.success) {
           setNewProduct(response.data.deal); // Set product data
         }
-        console.log(newProduct);
       } catch (error) {
         console.error("Failed to fetch product:", error);
       } finally {
@@ -76,7 +77,7 @@ const ViewListing = () => {
 
   useEffect(() => {
     if (newProduct) {
-      console.log(newProduct);
+      console.log(newProduct); // Log product data once it's set
     }
   }, [newProduct]);
   // Simulating an API call to fetch product details and bids
@@ -128,8 +129,33 @@ const ViewListing = () => {
     fetchData();
   }, []);
 
-  if (!product) {
-    return <div>Loading...</div>;
+  if (!newProduct) {
+    return (
+      <>
+        <Box
+          sx={{
+            height: "80vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0.5 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 0.8,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+          >
+            <Typography level="h2" sx={{ color: theme.colors.primary }}>
+              Wheels Hub
+            </Typography>
+          </motion.div>
+        </Box>
+      </>
+    );
   }
 
   return (

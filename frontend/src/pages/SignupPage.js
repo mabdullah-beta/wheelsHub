@@ -73,10 +73,9 @@ const SignupPage = () => {
     >
       <Card
         sx={{
-          width: 400,
-          height: 450,
+          width: { xs: "100%", sm: 400 },
           py: 3,
-          px: 3,
+          px: { xs: 2, sm: 3 }, // Adjust padding for mobile
           display: "flex",
           justifyContent: "center",
           borderRadius: "12px",
