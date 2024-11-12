@@ -15,15 +15,28 @@ const CarCard = ({ carData, onLikeToggle }) => {
   return (
     <Card variant="outlined" sx={{ px: 3, py: 2 }} onClick={handleCardClick}>
       <Box sx={{ mb: 5 }}>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Typography
+          level="body2"
+          sx={{
+            textTransform: "capitalize",
+            marginBottom: "4px",
+            fontSize: "12px",
+            fontWeight: "600",
+          }}
+        >
+          {carData.body_type}
+        </Typography>
+
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          marginBottom={0.5}
+        >
           <Typography level="h4">
             {carData.make} - {carData.model}{" "}
           </Typography>
         </Box>
-
-        <Typography level="body2" sx={{ textTransform: "capitalize" }}>
-          {carData.body_type}
-        </Typography>
       </Box>
 
       <Box
@@ -39,7 +52,7 @@ const CarCard = ({ carData, onLikeToggle }) => {
       >
         {carData.image ? (
           <img
-            src={carData.image}
+            src={"/images/" + carData.image + ".png"}
             alt={carData.name}
             style={{
               width: "80%",

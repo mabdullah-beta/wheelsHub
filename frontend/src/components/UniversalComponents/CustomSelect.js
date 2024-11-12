@@ -11,7 +11,7 @@ const CustomSelect = ({
   placeholder,
   backgroundColor = themes.colors.primary,
   color = "white",
-
+  fontSize = "14px",
   borderRadius = null,
   arrowColor = null,
   border = "none",
@@ -29,6 +29,7 @@ const CustomSelect = ({
         bgcolor: backgroundColor,
         color: color,
         border: border,
+        fontSize: fontSize,
         borderRadius: borderRadius,
         outline: "none",
         boxShadow: "none",

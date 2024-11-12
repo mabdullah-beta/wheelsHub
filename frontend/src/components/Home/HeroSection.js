@@ -196,6 +196,7 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
             }}
           >
             {filterConfigs.map((filter) => (
+              
               <CustomSelect
                 key={filter.name}
                 options={filter.options}
@@ -208,6 +209,7 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
                 color="black"
                 borderRadius="12px"
               />
+              
             ))}
           </Box>
         </Box>
