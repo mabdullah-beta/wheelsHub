@@ -69,3 +69,4 @@ And protected routes will get
 ```shell
 curl -X GET http://localhost:8000/auth/user/ -H "Authorization: Bearer token"
 ```
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxNTAwMzkwLCJpYXQiOjE3MzE0MTM5OTAsImp0aSI6ImIwZmY4ODU1MzZjYTRmMjVhYjEyZDEzZTA2NjQzYjZhIiwidXNlcl9pZCI6NX0.QsuNJ_6TZkUmTFJ9A-bB6brQWDwN4ZGNozwbEW-bFmA"

@@ -11,6 +11,9 @@ urlpatterns = [
     path('deals/<uuid:deal_id>/', views.get_deal_by_id, name='get_deal_by_id'),
     path('deals/<uuid:deal_id>/bids/', views.create_bid, name='create_bid'),
 
+    # Bid
+    path('bids/<uuid:bid_id>/', views.activate_bid, name='activate_bid'),
+
     # Auth routes
     path('auth/register/', views.register_user, name='register'),
     path('auth/login/', views.login_user, name='login'),

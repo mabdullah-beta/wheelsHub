@@ -124,6 +124,8 @@ def get_deal_by_id(request, deal_id):
         # Init bids
         bids = []
 
+        print(request.user.id)
+
         # Check if seller
         is_seller = deal.seller == uuid.UUID(int=request.user.id) if request.user.id is not None else False
         
