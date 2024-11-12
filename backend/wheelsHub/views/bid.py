@@ -7,6 +7,9 @@ from django.shortcuts import redirect
 # Import db models 
 from ..models import Bid, Deal
 
+# Extras
+from ..serializers import BidSerializer
+
 # For payment
 import stripe
 
@@ -53,7 +56,7 @@ def create_bid(request, deal_id):
                 }
             ],
             mode='payment',
-            success_url = f"{ backend }/bids/{ bid.id }/activate?session_id={{CHECKOUT_SESSION_ID}}",
+            success_url = f"{ backend }/webhook/bids/{ bid.id }/activate/?session_id={{CHECKOUT_SESSION_ID}}",
             cancel_url = frontend,
         )
 
@@ -84,7 +87,7 @@ def unlock_bid(request, bid_id):
                 }
             ],
             mode='payment',
-            success_url = f"{ backend }/bids/{ bid.id }/accept?session_id={{CHECKOUT_SESSION_ID}}",
+            success_url = f"{ backend }/webhook/bids/{ bid.id }/accept/?session_id={{CHECKOUT_SESSION_ID}}",
             cancel_url = frontend,
         )
 
@@ -95,7 +98,22 @@ def unlock_bid(request, bid_id):
 
         return Response({ "success": False }, status=404)
 
-# Activate bid
+    
+# Get bids of a user
+@api_view(['GET'])
+@permission_classes([IsAuthenticated]) 
+def user_bids(request):
+
+    # Request server to get all deals
+    bids = Bid.objects.filter(buyer= request.user.id)
+
+    # Serialize data because it needs to converted from python object to json
+    serializer = BidSerializer(bids, many=True)
+
+    # Return json response
+    return Response({ "success": True, "bids": serializer.data })
+
+# Webhook to activate bid
 @api_view(['GET'])
 def activate_bid(request, bid_id):
 
@@ -117,7 +135,7 @@ def activate_bid(request, bid_id):
         return Response({ "success": False }, status=404)
     
 
-# Accept bid
+# Webhook to accept bid
 @api_view(['GET'])
 def accept_bid(request, bid_id):
 

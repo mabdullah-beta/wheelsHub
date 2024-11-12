@@ -11,7 +11,7 @@ from ..models import Deal, Bid
 from django.contrib.auth.models import User
 
 # Extras
-from ..serializers import DealSerializer, BidSerializer
+from ..serializers import DealSerializer
 
 # Get all deals
 @api_view(['GET', 'POST'])
@@ -158,3 +158,17 @@ def get_deal_by_id(request, deal_id):
 
         # Failed to get the data
         return Response({ "success": False }, status=404)
+    
+# Get deals of a user
+@api_view(['GET'])
+@permission_classes([IsAuthenticated]) 
+def user_deals(request):
+
+    # Request server to get all deals
+    deals = Deal.objects.filter(seller= request.user.id)
+
+    # Serialize data because it needs to converted from python object to json
+    serializer = DealSerializer(deals, many=True)
+
+    # Return json response
+    return Response({ "success": True, "deals": serializer.data })
