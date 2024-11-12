@@ -64,7 +64,7 @@ const Header = () => {
             color="primary"
             onClick={handleCreateListing}
             sx={{
-              padding: "8px 16px", // Adjust padding to look like a button
+              padding: "8px 16px",
               fontSize: "1rem", // Set font size for button text
               borderRadius: "4px", // Rounded corners
               boxShadow: "md", // Optional shadow for a button effect
@@ -78,37 +78,6 @@ const Header = () => {
           </Button>
         )}
 
-        <IconButton
-          color="neutral"
-          sx={{
-            padding: 0.25,
-            border: "2px solid #C3D4E9",
-            borderRadius: "50%",
-          }}
-        >
-          {" "}
-          <Like />
-        </IconButton>
-        <IconButton
-          color="neutral"
-          sx={{
-            padding: 0.25,
-            border: "2px solid #C3D4E9",
-            borderRadius: "50%",
-          }}
-        >
-          <Notify />
-        </IconButton>
-        <IconButton
-          color="neutral"
-          sx={{
-            padding: 0.25,
-            border: "2px solid #C3D4E9",
-            borderRadius: "50%",
-          }}
-        >
-          <Setting />
-        </IconButton>
         <IconButton color="neutral" sx={{ fontSize: "1.5rem", padding: 0 }}>
           {" "}
           {/* Set fontSize and padding here */}
