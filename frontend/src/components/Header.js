@@ -8,6 +8,7 @@ import { ReactComponent as Like } from "../assets/likeIcon.svg";
 import { ReactComponent as Setting } from "../assets/settingsIcon.svg";
 
 const Header = () => {
+
   const [searchOpen, setSearchOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation(); // Get the current location
@@ -17,11 +18,14 @@ const Header = () => {
   };
 
   const handleCreateListing = () => {
+    
     const token = localStorage.getItem("token"); // Get token from localStorage
 
     if (token) {
+      
       navigate("/createListing");
     } else {
+      
       // If no token, redirect to signup or login
       navigate("/login"); // Change this to "/login" if you want to redirect to login
     }
@@ -38,8 +42,14 @@ const Header = () => {
         boxShadow: "md",
       }}
     >
+
+      {/* Inner Container */}
       <Box sx={{ display: "flex", alignItems: "center" }}>
+
+        {/* Logo */}
         <Link to="/" style={{ textDecoration: "none" }}>
+
+          {/* Logo inner */}
           <Typography
             level="h2"
             sx={{
@@ -52,8 +62,9 @@ const Header = () => {
             WheelsHub
           </Typography>
         </Link>
+        
 
-        <Box
+        {/* <Box
           sx={{
             display: { xs: "none", md: "flex" },
             alignItems: "center",
@@ -63,6 +74,7 @@ const Header = () => {
             width: "100%",
           }}
         >
+
           <IconButton
             sx={{
               padding: 0,
@@ -74,6 +86,7 @@ const Header = () => {
           >
             <Search />
           </IconButton>
+
           <Input
             placeholder="Search something here"
             sx={{
@@ -85,10 +98,12 @@ const Header = () => {
               paddingLeft: "8px",
             }}
           />
-        </Box>
+        </Box> */}
+
       </Box>
 
       <Box sx={{ display: "flex", alignItems: "center", gap: "6px" }}>
+        
         {location.pathname !== "/createListing" && (
           <IconButton
             color="primary"
@@ -102,53 +117,14 @@ const Header = () => {
             <AddCircle />
           </IconButton>
         )}
-        <IconButton
-          onClick={toggleSearch}
-          sx={{
-            display: { xs: "block", md: "none" },
-            fontSize: "1.5rem",
-            padding: 0,
-          }}
-        >
-          <Search />
-        </IconButton>
-        <IconButton
-          color="neutral"
-          sx={{
-            padding: 0.25,
-            border: "2px solid #C3D4E9",
-            borderRadius: "50%",
-          }}
-        >
-          {" "}
-          <Like />
-        </IconButton>
-        <IconButton
-          color="neutral"
-          sx={{
-            padding: 0.25,
-            border: "2px solid #C3D4E9",
-            borderRadius: "50%",
-          }}
-        >
-          <Notify />
-        </IconButton>
-        <IconButton
-          color="neutral"
-          sx={{
-            padding: 0.25,
-            border: "2px solid #C3D4E9",
-            borderRadius: "50%",
-          }}
-        >
-          <Setting />
-        </IconButton>
+
         <IconButton color="neutral" sx={{ fontSize: "1.5rem", padding: 0 }}>
           {" "}
           {/* Set fontSize and padding here */}
           <Person />
         </IconButton>
       </Box>
+      
 
       {searchOpen && (
         <Box
@@ -178,9 +154,11 @@ const Header = () => {
               boxShadow: "md",
             }}
           >
+            
             <IconButton sx={{ padding: 0 }}>
               <Search />
             </IconButton>
+
             <Input
               placeholder="Search something here"
               sx={{
@@ -192,9 +170,11 @@ const Header = () => {
                 paddingLeft: "8px",
               }}
             />
+            
           </Box>
         </Box>
       )}
+
     </Sheet>
   );
 };

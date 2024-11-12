@@ -25,9 +25,8 @@ const CustomSelect = ({
       indicator={<KeyboardArrowDown sx={{ color: arrowColor }} />}
       sx={{
         width: width,
-        minWidth: "130px",
+        minWidth: "100px",
         bgcolor: backgroundColor,
-
         color: color,
         border: border,
         borderRadius: borderRadius,

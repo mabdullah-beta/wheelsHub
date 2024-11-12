@@ -17,6 +17,7 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
   const [selectedLocation, setSelectedLocation] = useState(locations[0]);
 
   const filterConfigs = [
+
     {
       name: "title",
       placeholder: "Title",
@@ -35,14 +36,18 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
     {
       name: "mileage",
       placeholder: "Mileage",
-      options: ["0-10,000 miles", "10,000-20,000 miles"],
+      options: ["0 - 10,000 miles", "10,000-20,000 miles"],
     },
     {
       name: "transmission",
       placeholder: "Transmission",
-      options: ["automatic", "Manual"],
+      options: ["Automatic", "Manual"],
     },
-    { name: "color", placeholder: "Color", options: ["Red", "Blue", "Black"] },
+
+    { name: "color", 
+      placeholder: "Color", 
+      options: ["Red", "Blue", "Black"] 
+    },
   ];
 
   const [filterValues, setFilterValues] = useState({
@@ -89,7 +94,7 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
       variant="outlined"
       sx={{
         mb: 6,
-        p: 4,
+        p: 6,
         bgcolor: "white",
         borderRadius: "20px",
         backgroundImage: `url(${HeroImage})`,
@@ -98,15 +103,24 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
         backgroundRepeat: "no-repeat",
       }}
     >
+
       <Box mb={3}>
+
+        {/* Title */}
         <Typography level="h2" sx={{ color: "white", mb: 1 }}>
           Search In
         </Typography>
+
+        {/* Location Selector */}
         <Box sx={{ display: "flex", alignItems: "center", color: "white" }}>
+
+          {/* Location Selector */}
           <CustomSelect
             options={locations}
             arrowColor="white"
+            border="0"
             backgroundColor="transparent"
+            ring="0"
             value={selectedLocation}
             width="120px"
             onChange={(event, value) => {
@@ -114,14 +128,17 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
               handleFilterChange("location", value);
             }}
           />
+          
         </Box>
-      </Box>
 
+      </Box>
+      
+      {/* Filters */}
       <Box
         sx={{
           bgcolor: "#F6F7F9",
           borderRadius: "20px",
-          p: 3,
+          p: 4,
           boxShadow: 2,
           gap: 2,
           mb: 3,
@@ -129,6 +146,7 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
           flexDirection: { xs: "column", md: "row" },
         }}
       >
+
         <Box
           sx={{
             width: { xs: "100%", md: "85%" },
@@ -136,6 +154,7 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
             flexDirection: "column",
           }}
         >
+          
           <Box
             sx={{
               display: "flex",
@@ -148,9 +167,12 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
               minHeight: "40px",
             }}
           >
+
+            {/* Search Icon */}
             <IconButton sx={{ padding: 0, bgcolor: "white" }}>
               <Search />
             </IconButton>
+
             <Input
               placeholder="Search any car"
               sx={{
@@ -182,7 +204,6 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
                 onChange={(event, value) =>
                   handleFilterChange(filter.name, value)
                 }
-                border="1px solid #C3D4E966"
                 backgroundColor="white"
                 color="black"
                 borderRadius="12px"
@@ -216,7 +237,7 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
             onClick={() => onSearch(filterValues)}
           >
             <SearchIcon
-              sx={{ fontSize: { xs: "1.5rem", md: "2.5rem" }, color: "white" }}
+              sx={{ fontSize: { xs: "1.5rem", md: "2rem" }, color: "white" }}
             />
           </Button>
         </Box>
