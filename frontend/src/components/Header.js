@@ -16,16 +16,16 @@ const Header = () => {
     setSearchOpen(!searchOpen);
   };
 
- const handleCreateListing = () => {
-   const token = localStorage.getItem("token"); // Get token from localStorage
+  const handleCreateListing = () => {
+    const token = localStorage.getItem("token"); // Get token from localStorage
 
-   if (token) {
-     navigate("/createListing");
-   } else {
-     // Store the current location and redirect to login page
-     navigate("/login", { state: { from: "/createListing" } });
-   }
- };
+    if (token) {
+      navigate("/createListing");
+    } else {
+      // Store the current location and redirect to login page
+      navigate("/login", { state: { from: "/createListing" } });
+    }
+  };
 
   return (
     <Sheet
@@ -38,8 +38,11 @@ const Header = () => {
         boxShadow: "md",
       }}
     >
+      {/* Inner Container */}
       <Box sx={{ display: "flex", alignItems: "center" }}>
+        {/* Logo */}
         <Link to="/" style={{ textDecoration: "none" }}>
+          {/* Logo inner */}
           <Typography
             level="h2"
             sx={{
@@ -144,6 +147,7 @@ const Header = () => {
             <IconButton sx={{ padding: 0 }}>
               <Search />
             </IconButton>
+
             <Input
               placeholder="Search something here"
               sx={{
