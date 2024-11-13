@@ -21,6 +21,7 @@ const Home = () => {
     transmission: "",
     color: "",
   });
+  const [search, setSearchMode] = useState(false);
 
   useEffect(() => {
     fetchFilteredDeals(); // Initial fetch without filters
@@ -50,6 +51,7 @@ const Home = () => {
   const handleSearch = (filters) => {
     // Ensure location is part of the filters when making the API call
     const updatedFilters = { ...filters, location: filterValues.location }; // Include location here
+    setSearchMode(true);
     fetchFilteredDeals(updatedFilters); // Trigger search with updated filters
   };
 
@@ -71,7 +73,7 @@ const Home = () => {
             }}
           >
             <Typography level="body1" sx={{ ml: 2 }}>
-              Popular Cars
+              { search ? "Search Results" : "Popular Cars" }
             </Typography>
           </Box>
 

@@ -10,13 +10,7 @@ const CarCard = ({ carData, onLikeToggle }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleCardClick = () => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
       navigate(`/viewListing/${carData.id}`);
-    } else {
-      navigate("/login", { state: { message: "Please log in first" } }); // Pass a message in the state
-    }
   };
   return (
     <Card variant="outlined" sx={{ px: 3, py: 3 }} onClick={handleCardClick}>

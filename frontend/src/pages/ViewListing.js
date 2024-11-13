@@ -10,7 +10,6 @@ import {
 } from "@mui/joy";
 import { motion } from "framer-motion";
 
-import { ReactComponent as Profile } from "../assets/Profill.svg";
 import { ReactComponent as Skyler } from "../assets/skyler.svg";
 import { ReactComponent as Henry } from "../assets/henry.svg";
 import { useParams } from "react-router-dom"; // Import useParams
@@ -75,12 +74,14 @@ const ViewListing = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
+        // Token
+        var token = localStorage.getItem("token");
+
         const response = await axios.get(`http://localhost:8000/deals/${id}/`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            ... token ? { Authorization: `Bearer ${localStorage.getItem("token")}` } : { },
           },
         });
-        console.log(response);
         setIsSeller(response.data.is_seller);
         setSellerName(response.data.seller);
 
@@ -182,7 +183,7 @@ const ViewListing = () => {
   }
 
   return (
-    <Box sx={{ pb: 3 }}>
+    <Box sx={{ pb: 6, pt: 5 }}>
       <Box
         sx={{
           mx: "auto",
@@ -212,7 +213,7 @@ const ViewListing = () => {
               sx={{ color: "white", mb: 8, width: { xs: "100%", md: "50%" } }}
             >
               <Typography level="h2" sx={{ color: "white", mb: 2 }}>
-                Sports car with the best design and acceleration
+                Car with the best design and acceleration
               </Typography>
               <Typography level="body-sm" sx={{ color: "white" }}>
                 {newProduct.title}
@@ -302,7 +303,7 @@ const ViewListing = () => {
 
             <Stack direction="row" justifyContent="space-between">
               <Stack direction="row" alignItems="center" spacing={2}>
-                <Profile size="lg" />
+                <img src={`https://ui-avatars.com/api/?name=${ sellerName }`} style={{ height: 50, width: "auto", borderRadius: 80 }} />
                 <Stack spacing={0.5}>
                   <Typography
                     level="body-md"
