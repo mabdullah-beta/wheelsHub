@@ -31,7 +31,33 @@ const CreateListing = () => {
     type: "",
     message: "",
   });
-
+  const carInfoFields = [
+    {
+      name: "title",
+      label: "Title",
+      placeholder: "Your ad title",
+      type: "text",
+    },
+    {
+      name: "make",
+      label: "Make",
+      placeholder: "Enter your car make",
+      type: "text",
+    },
+    {
+      name: "model",
+      label: "Model",
+      placeholder: "Enter your car model",
+      type: "text",
+    },
+    {
+      name: "variant",
+      label: "Variant",
+      placeholder: "Enter your car variant",
+      type: "text",
+    },
+    { name: "year", label: "Year", placeholder: "Year", type: "text" },
+  ];
   const carfeatures = [
     {
       name: "transmission",
@@ -65,47 +91,6 @@ const CreateListing = () => {
     },
   ];
   const personalInfoFields = [
-    { name: "year", label: "Year", placeholder: "Year", type: "text" },
-
-    {
-      name: "location",
-      label: "Location",
-      placeholder: "Location",
-      type: "text",
-    },
-    {
-      name: "description",
-      label: "Description",
-      placeholder: "Description",
-      type: "text",
-    },
-  ];
-
-  const carInfoFields = [
-    {
-      name: "title",
-      label: "Title",
-      placeholder: "Your ad title",
-      type: "text",
-    },
-    {
-      name: "make",
-      label: "Make",
-      placeholder: "Enter your car make",
-      type: "text",
-    },
-    {
-      name: "model",
-      label: "Model",
-      placeholder: "Enter your car model",
-      type: "text",
-    },
-    {
-      name: "variant",
-      label: "Variant",
-      placeholder: "Enter your car variant",
-      type: "text",
-    },
     {
       name: "mileage",
       label: "Mileage",
@@ -116,6 +101,18 @@ const CreateListing = () => {
       name: "asking_price",
       label: "Asking price",
       placeholder: "Enter your asking price",
+      type: "text",
+    },
+    {
+      name: "location",
+      label: "Location",
+      placeholder: "Location",
+      type: "text",
+    },
+    {
+      name: "description",
+      label: "Description",
+      placeholder: "Description",
       type: "text",
     },
   ];
@@ -312,8 +309,8 @@ const CreateListing = () => {
       </Box>
 
       <FormSection
-        title="Car Info"
-        subtitle="Please enter your car info"
+        title="Vehicle Details"
+        subtitle="Provide information about the car you're listing"
         fields={carInfoFields}
         step="Step 1 of 4"
         formData={formData}
@@ -322,8 +319,8 @@ const CreateListing = () => {
       />
 
       <FormSection
-        title="Car Features"
-        subtitle="Please enter your car features"
+        title="Vehicle Specifications"
+        subtitle="List your car's key features"
         fields={carfeatures}
         step="Step 2 of 4"
         formData={formData}
@@ -331,8 +328,8 @@ const CreateListing = () => {
         onInputChange={handleInputChange}
       />
       <FormSection
-        title="Personal Info"
-        subtitle="Please enter your personal info"
+        title="Seller Information"
+        subtitle="Enter your personal info"
         fields={personalInfoFields}
         step="Step 3 of 4"
         formData={formData}
