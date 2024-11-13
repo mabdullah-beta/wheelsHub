@@ -10,7 +10,7 @@ const CarCard = ({ carData, onLikeToggle }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleCardClick = () => {
-      navigate(`/viewListing/${carData.id}`);
+      navigate(`/view/${carData.id}`);
   };
   return (
     <Card variant="outlined" sx={{ px: 3, py: 3 }} onClick={handleCardClick}>

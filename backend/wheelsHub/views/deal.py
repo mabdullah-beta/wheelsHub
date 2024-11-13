@@ -128,10 +128,10 @@ def get_deal_by_id(request, deal_id):
         bids = []  
 
         # Convert current user id into uuid
-        user_id_uuid = uuid.UUID(int=request.user.id)
+        user = uuid.UUID(int=request.user.id) if request.user.id is not None else False
 
         # Check if seller
-        is_seller = deal.seller == user_id_uuid if request.user.id is not None else False
+        is_seller = deal.seller == user
         
         # Get the bids
         data = Bid.objects.filter(deal=deal.id).exclude(status='pending')
@@ -141,7 +141,7 @@ def get_deal_by_id(request, deal_id):
 
             # We will fetch all bids, but if this user is not the seller
             # then we will only return the bids that this user has placed
-            if bid.buyer != user_id_uuid and not is_seller:
+            if bid.buyer != user and not is_seller:
                 
                 continue
 
