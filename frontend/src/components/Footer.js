@@ -37,7 +37,7 @@ const Footer = () => {
   return (
     <Box
       sx={{
-        padding: { xs: "30px 20px", md: "30px 60px" },
+        padding: { xs: "30px 20px", md: "100px" },
         bgcolor: "#FFFFFF",
       }}
     >
@@ -47,12 +47,13 @@ const Footer = () => {
           display: { xs: "none", md: "flex" },
           width: "100%",
           justifyContent: "space-between",
-          mb: 3,
-          alignItems: "flex-start",
+          mb: 4,
+          alignItems: "flex-center",
         }}
       >
         {/* WheelsHub Heading */}
         <Box sx={{ maxWidth: "30%" }}>
+          {/* Logo */}
           <Typography
             level="h2"
             sx={{
@@ -63,7 +64,9 @@ const Footer = () => {
           >
             WheelsHub
           </Typography>
-          <Typography level="body3" color="text.secondary" sx={{ mt: 2 }}>
+
+          {/* Subheading */}
+          <Typography level="body2" color="text.secondary" sx={{ mt: 2 }}>
             Providing affordable car buying and selling services with secure and
             convenient transactions.
           </Typography>
@@ -74,61 +77,11 @@ const Footer = () => {
           sx={{
             display: "flex",
             marginLeft: "auto",
-            gap: 10,
+            gap: 20,
             maxWidth: "70%",
             alignItems: "flex-start",
           }}
         >
-          {/* About Heading */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-            }}
-          >
-            <Typography level="h4" fontWeight="bold" sx={{ mb: 2 }}>
-              About
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              {aboutLinks.map((link, index) => (
-                <Link
-                  key={index}
-                  href={link.href}
-                  color="neutral"
-                  underline="none"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </Box>
-          </Box>
-
-          {/* Community Heading */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-            }}
-          >
-            <Typography level="h4" fontWeight="bold" sx={{ mb: 2 }}>
-              Community
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              {communityLinks.map((link, index) => (
-                <Link
-                  key={index}
-                  href={link.href}
-                  color="neutral"
-                  underline="none"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </Box>
-          </Box>
-
           {/* Socials Heading */}
           <Box
             sx={{
@@ -137,11 +90,47 @@ const Footer = () => {
               alignItems: "flex-start",
             }}
           >
-            <Typography level="h4" fontWeight="bold" sx={{ mb: 2 }}>
+            <Typography
+              level="h6"
+              color="text.secondary"
+              fontWeight="bold"
+              sx={{ mb: 1 }}
+            >
               Socials
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {socialLinks.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.href}
+                  color="neutral"
+                  underline="none"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </Box>
+          </Box>
+
+          {/* About Heading */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+            }}
+          >
+            <Typography
+              level="h6"
+              color="text.secondary"
+              fontWeight="bold"
+              sx={{ mb: 1 }}
+            >
+              About
+            </Typography>
+
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              {aboutLinks.map((link, index) => (
                 <Link
                   key={index}
                   href={link.href}

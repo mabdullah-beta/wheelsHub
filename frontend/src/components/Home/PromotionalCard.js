@@ -11,7 +11,10 @@ const PromotionalCard = () => {
       sx={{
         bgcolor: themes.colors.primary,
         color: "white", // Ensure the Card's base text color is set
-        p: 4,
+        p: 10,
+        borderRadius: "20px",
+        marginBottom: "6em",
+        marginTop: "10em",
         textAlign: "start",
         display: "flex",
         justifyContent: "center", // Center content horizontally
@@ -25,14 +28,17 @@ const PromotionalCard = () => {
           alignItems: "flex-start",
         }}
       >
-        <Typography level="h4" sx={{ mb: 1, color: "white" }}>
+        
+        <Typography level="h2" sx={{ mb: 2, color: "white", fontWeight: "bold" }}>
           Your trusted car marketplace.
         </Typography>
-        <Typography sx={{ mb: 2, color: "white" }}>
+
+        
+        <Typography sx={{ mb: 4, color: "white" }}>
           Providing reliable car buying and selling services with
-          <br />
           secure and verified transactions
         </Typography>
+
         <Button
           variant="solid"
           sx={{
