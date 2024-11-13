@@ -8,6 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/joy";
+import { LockIcon } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { ReactComponent as Skyler } from "../assets/skyler.svg";
@@ -19,8 +20,9 @@ import axios from "axios";
 import { ReactComponent as CarIcon } from "../assets/carImage.svg";
 import theme from "../themes";
 import PlaceBidModal from "../components/UniversalComponents/PlaceBidModal";
+import AcceptBidModal from "../components/UniversalComponents/AcceptBidModal";
 
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Reusable ProductDetailItem Component
 const ProductDetailItem = ({ label, value }) => (
@@ -53,10 +55,12 @@ const ProductDetailItem = ({ label, value }) => (
 const ViewListing = () => {
   const [product, setProduct] = useState(null);
   const [bids, setBids] = useState([]);
+  const [bidId, setBidId] = useState(null);
   const [newProduct, setNewProduct] = useState(null);
   const [isSeller, setIsSeller] = useState(null);
   const [sellerName, setSellerName] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAcceptModalOpen, setIsAcceptModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -74,7 +78,22 @@ const ViewListing = () => {
     setIsModalOpen(true);
   
   }
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleAcceptOpenModal = (bidId) => {
+    
+    // If the user is not authenticated, redirect
+    const token = localStorage.getItem("token"); // Get token from localStorage
+
+    if (!token) {
+      navigate("/login", { state: { from: window.location.pathname } });
+
+      return
+    }
+
+    setBidId(bidId);
+    setIsAcceptModalOpen(true);
+  
+  }
+  const handleCloseModal = () => { setIsModalOpen(false); setIsAcceptModalOpen(false) };
 
   const [newbids, setNewBids] = useState([]);
 
@@ -416,7 +435,18 @@ const ViewListing = () => {
                             level="body-sm"
                             sx={{ color: "#90A3BF" }}
                           >
-                            {bid.buyer_contact}
+                            { 
+                            
+                              bid.status === "placed" ? 
+                              
+                                <Typography onClick={() => handleAcceptOpenModal(bid.id)} level="body-sm" sx={{ color: "#90A3BF", display: "flex", alignItems: "center", gap: "4px", cursor: "pointer" }}>Unlock Contact <LockIcon color="#90A3BF" size="14px" /> </Typography> 
+                                
+                              : 
+                              
+                                bid.buyer_contact
+                                
+                              }
+                                
                           </Typography>
                         </Stack>
                       </Stack>
@@ -428,7 +458,7 @@ const ViewListing = () => {
                       ${Number(bid.amount).toLocaleString()}
                     </Typography>
                     <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
-                      {bid.date}
+                      {formatDate(bid.created_at)}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -452,6 +482,13 @@ const ViewListing = () => {
         handleClose={handleCloseModal}
         dealId={dealId}
       />
+
+      <AcceptBidModal
+        open={isAcceptModalOpen}
+        handleClose={handleCloseModal}
+        bidId={bidId}
+      />
+
     </Box>
   );
 };

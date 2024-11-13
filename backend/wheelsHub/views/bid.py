@@ -128,7 +128,7 @@ def activate_bid(request, bid_id):
         bid.save()
 
         # Redirect user to frontend 
-        return redirect(f"{ frontend }/bids")
+        return redirect(f"{ frontend }/view/{ bid.deal }")
 
     except Bid.DoesNotExist:
 
@@ -150,7 +150,7 @@ def accept_bid(request, bid_id):
         bid.save()
 
         # Redirect user to frontend 
-        return redirect(f"{ frontend }/view?id={ bid.deal }")
+        return redirect(f"{ frontend }/view/{ bid.deal }")
 
     except Bid.DoesNotExist:
 

@@ -151,7 +151,8 @@ def get_deal_by_id(request, deal_id):
                     "status": bid.status, 
                     "buyer_contact": bid.contact if bid.status == "accepted" else f"{bid.contact[0]}{'*' * (len(bid.contact) - 2)}{bid.contact[-1]}", 
                     "buyer": bid.buyer, 
-                    "buyer_name": f"{buyer.first_name} {buyer.last_name}" 
+                    "buyer_name": f"{buyer.first_name} {buyer.last_name}",
+                    "created_at": bid.created_at
         
                 })
 
