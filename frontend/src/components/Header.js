@@ -73,7 +73,9 @@ const Header = () => {
               boxShadow: "md", // Optional shadow for a button effect
               textTransform: "none", // To prevent text from being all caps (optional)
               ":hover": {
-                backgroundColor: themes.colors.primaryDark, // Change background color on hover
+                transition: "all 0.6s ease",
+                backgroundColor: themes.colors.primary,
+                color: "white",
               },
             }}
           >
