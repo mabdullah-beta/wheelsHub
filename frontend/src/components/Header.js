@@ -65,12 +65,14 @@ const Header = () => {
             onClick={handleCreateListing}
             sx={{
               padding: "8px 16px",
-              fontSize: "1rem", // Set font size for button text
-              borderRadius: "4px", // Rounded corners
-              boxShadow: "md", // Optional shadow for a button effect
-              textTransform: "none", // To prevent text from being all caps (optional)
+              fontSize: "1rem",
+              borderRadius: "4px",
+              boxShadow: "md",
+              textTransform: "none",
               ":hover": {
-                backgroundColor: themes.colors.primaryDark, // Change background color on hover
+                transition: "all 0.6s ease",
+                backgroundColor: themes.colors.primary,
+                color: "white",
               },
             }}
           >
