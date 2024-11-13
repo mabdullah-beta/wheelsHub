@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.shortcuts import redirect
+import os
 
 # Import db models 
 from ..models import Bid, Deal
@@ -14,7 +15,7 @@ from ..serializers import BidSerializer
 import stripe
 
 # Stripe secret API key.
-stripe.api_key = 'sk_test_51QK3J9ITNyBNaHGFGVp5qm249mhD6Vj9YqaywqHPccAWzbPWInf7K1ghcLpUneaLuzsiJswf0DHMFZrm6yHfUYlt00RZvUEIIR'
+stripe.api_key = os.getenv("STRIPE_KEY")
 
 # Url for backend
 backend = "http://localhost:8000"
