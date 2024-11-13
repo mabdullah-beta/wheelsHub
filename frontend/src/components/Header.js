@@ -34,7 +34,7 @@ const Header = () => {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: { xs: "10px 20px", md: "10px 60px" },
+        padding: { xs: "10px 20px", md: "20px 60px" },
         boxShadow: "md",
       }}
     >
@@ -49,7 +49,7 @@ const Header = () => {
               marginRight: 4,
               color: themes.colors.primary,
               fontWeight: "bold",
-              fontSize: { xs: "1.5rem", md: "2rem" },
+              fontSize: { xs: "1.5rem", md: "1.5rem" },
             }}
           >
             WheelsHub
@@ -65,8 +65,11 @@ const Header = () => {
             onClick={handleCreateListing}
             sx={{
               padding: "8px 16px",
-              fontSize: "1rem", // Set font size for button text
-              borderRadius: "4px", // Rounded corners
+              color: "white",
+              backgroundColor: themes.colors.primary, // Change background color on hover
+              fontSize: "0.8rem", // Set font size for button text
+              fontWeight: "medium",
+              borderRadius: "10px", // Rounded corners
               boxShadow: "md", // Optional shadow for a button effect
               textTransform: "none", // To prevent text from being all caps (optional)
               ":hover": {
@@ -74,14 +77,14 @@ const Header = () => {
               },
             }}
           >
-            Create Listing
+            New Listing
           </Button>
         )}
 
-        <IconButton color="neutral" sx={{ fontSize: "1.5rem", padding: 0 }}>
+        <IconButton color="neutral" sx={{ fontSize: "1rem", borderRadius:"100px", border:"1px solid "+themes.colors.primary, padding: 0, marginLeft:"10px" }}>
           {" "}
           {/* Set fontSize and padding here */}
-          <Person />
+          <Person sx={{ color: themes.colors.primary, fontSize: "20px" }} />
         </IconButton>
       </Box>
 

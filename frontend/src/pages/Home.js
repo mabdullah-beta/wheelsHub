@@ -131,13 +131,16 @@ const Home = () => {
                   <CarCard key={car.id} carData={car} />
                 ))}
               </Box>
+              
+              {/* Show more */}
               {visibleCarsCount < allDeals.length && (
-                <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+                <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
                   <Button variant="outlined" onClick={handleShowMore}>
                     Show More
                   </Button>
                 </Box>
               )}
+
             </>
           )}
         </Box>
