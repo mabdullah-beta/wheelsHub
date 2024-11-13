@@ -35,67 +35,16 @@ const CreateListing = () => {
     {
       name: "title",
       label: "Title",
-      placeholder: "Your ad title",
+      placeholder: "Your Ad title",
       type: "text",
+      sm: 12
     },
     {
-      name: "make",
-      label: "Make",
-      placeholder: "Enter your car make",
-      type: "text",
-    },
-    {
-      name: "model",
-      label: "Model",
-      placeholder: "Enter your car model",
-      type: "text",
-    },
-    {
-      name: "variant",
-      label: "Variant",
-      placeholder: "Enter your car variant",
-      type: "text",
-    },
-    { name: "year", label: "Year", placeholder: "Year", type: "text" },
-  ];
-  const carfeatures = [
-    {
-      name: "transmission",
-      label: "Transmission",
-      placeholder: "Transmission",
-      type: "text",
-    },
-    {
-      name: "condition",
-      label: "Condition",
-      placeholder: "Condition",
-      type: "text",
-    },
-    {
-      name: "body_type",
-      label: "Body Type",
-      placeholder: "Body Type",
-      type: "text",
-    },
-    {
-      name: "fuel_type",
-      label: "Fuel Type",
-      placeholder: "Fuel Type",
-      type: "text",
-    },
-    {
-      name: "engine_capacity",
-      label: "Engine Capacity",
-      placeholder: "Engine Capacity",
-      type: "text",
-    },
-  ];
-  const personalInfoFields = [
-    {
-      name: "mileage",
-      label: "Mileage",
-      placeholder: "Enter current mileage",
-      type: "text",
+      name: "description",
+      label: "Description",
+      placeholder: "Describe your deal",
+      type: "textarea",
+      sm: 12
     },
     {
       name: "asking_price",
@@ -108,11 +57,62 @@ const CreateListing = () => {
       label: "Location",
       placeholder: "Location",
       type: "text",
+    }
+  ];
+  const carfeatures = [
+    {
+      name: "make",
+      label: "Make",
+      placeholder: "Enter your car maker",
+      type: "text",
     },
     {
-      name: "description",
-      label: "Description",
-      placeholder: "Description",
+      name: "model",
+      label: "Model",
+      placeholder: "Enter your car model",
+      type: "text",
+    },
+    { name: "year", label: "Year", placeholder: "Year", type: "text" },
+    {
+      name: "transmission",
+      label: "Transmission",
+      placeholder: "Transmission",
+      type: "select",
+      options: [{ label: "Manual", value: "manual" }, { label: "Automatic", value: "automatic" }]
+    },
+    {
+      name: "body_type",
+      label: "Body Type",
+      placeholder: "Body Type",
+      type: "select",
+      options: [{ label: "Sedan", value: "sedan" }, { label: "Hatchback", value: "hatchback" }, { label: "Coupe", value: "coupe" }, { label: "SUV", value: "suv" }]
+    },
+    {
+      name: "fuel_type",
+      label: "Fuel Type",
+      placeholder: "Fuel Type",
+      type: "select",
+      options: [{ label: "Gasoline", value: "gasoline" }, { label: "Diesel", value: "diesel" }, { label: "Electric", value: "electric" }]
+    },
+  ];
+  const conditionFields = [
+    {
+      name: "mileage",
+      label: "Mileage",
+      placeholder: "Enter current mileage",
+      type: "text",
+    },
+    {
+      name: "condition",
+      label: "Rating",
+      placeholder: "Is it certified or used?",
+      type: "select",
+      options: [{ label: "Certified", value: "certified" }, { label: "Used", value: "used" }]
+    },
+    {
+      name: "engine_capacity",
+      label: "Engine Capacity",
+      placeholder: "How much fuel capacity your vehicle have?",
       type: "text",
     },
   ];
@@ -127,27 +127,26 @@ const CreateListing = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.year.trim()) newErrors.year = "Year is required";
-    if (!formData.location.trim()) newErrors.location = "Location is required";
-    if (!formData.description.trim())
+    if (!formData.year) newErrors.year = "Year is required";
+    if (!formData.location) newErrors.location = "Location is required";
+    if (!formData.description)
       newErrors.description = "Description is required";
-    if (!formData.transmission.trim())
+    if (!formData.transmission)
       newErrors.transmission = "Transmission is required";
-    if (!formData.condition.trim())
+    if (!formData.condition)
       newErrors.condition = "Condition is required";
-    if (!formData.body_type.trim())
+    if (!formData.body_type)
       newErrors.body_type = "Body Type is required";
-    if (!formData.fuel_type.trim())
+    if (!formData.fuel_type)
       newErrors.fuel_type = "Fuel Type is required";
-    if (!formData.engine_capacity.trim())
+    if (!formData.engine_capacity)
       newErrors.engine_capacity = "Engine Capacity is required";
 
-    if (!formData.title.trim()) newErrors.title = "Title is required";
-    if (!formData.make.trim()) newErrors.make = "Make is required";
-    if (!formData.model.trim()) newErrors.model = "Model is required";
-    if (!formData.variant.trim()) newErrors.variant = "Variant is required";
-    if (!formData.mileage.trim()) newErrors.mileage = "Mileage is required";
-    if (!formData.asking_price.trim())
+    if (!formData.title) newErrors.title = "Title is required";
+    if (!formData.make) newErrors.make = "Make is required";
+    if (!formData.model) newErrors.model = "Model is required";
+    if (!formData.mileage) newErrors.mileage = "Mileage is required";
+    if (!formData.asking_price)
       newErrors.asking_price = "Asking price is required";
 
     return newErrors;
@@ -167,6 +166,7 @@ const CreateListing = () => {
 
     // Form validation
     const newErrors = validateForm();
+    console.log(newErrors)
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setSubmitStatus({
@@ -203,7 +203,7 @@ const CreateListing = () => {
         : "",
       fuel_type: formData.fuel_type ? formData.fuel_type.toLowerCase() : "",
       image:
-        "https://unsplash.com/photos/a-computer-screen-with-a-remote-control-on-it-s5kTY-Ve1c0",
+        "car-suv-1",
       location: formData.location ? formData.location.toLowerCase() : "",
       transmission: formData.transmission
         ? formData.transmission.toLowerCase()
@@ -211,11 +211,8 @@ const CreateListing = () => {
       year: formData.year ? formData.year.toLowerCase() : "",
     };
 
-    dealData.image =
-      "https://unsplash.com/photos/a-computer-screen-with-a-remote-control-on-it-s5kTY-Ve1c0"; // Replace with actual image URL if available
-
     try {
-      const response = await fetch("http://127.0.0.1:8000/deals/", {
+      const response = await fetch("http://localhost:8000/deals/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -235,21 +232,20 @@ const CreateListing = () => {
         // Reset form and navigate to view listing
         setFormData({
           title: "",
+          description: "",
+          price: "",
+          location: "",
           make: "",
           model: "",
-          variant: "",
-          mileage: "",
-          asking_price: "",
-          body_type: "",
-          condition: "",
-          description: "",
-          engine_capacity: "",
-          fuel_type: "",
-          location: "",
-          transmission: "",
           year: "",
+          transmission: "",
+          body_type: "",
+          fuel_type: "",
+          mileage: "",
+          condition: "",
+          engine_capacity: ""
         });
-        navigate(`/viewListing/${data.deal}`);
+        navigate(`/view/${data.deal}`);
       } else {
         const errorMessage =
           data?.detail || "Failed to create deal. Please try again.";
@@ -300,16 +296,16 @@ const CreateListing = () => {
           <CircularProgress />
         </Box>
       )}
-      <Box sx={{ gap: 2, mb: 3 }}>
-        <Typography level="h2"> Create ad</Typography>
+      <Box sx={{ gap: 2, mb: 4 }}>
+        <Typography level="h2" sx={{ mb: 1 }}> Create Ad</Typography>
         <Typography level="body2">
           {" "}
-          Give us information about the car and you to place an ad.
+          Give us information about the car and you to create a new listing
         </Typography>
       </Box>
 
       <FormSection
-        title="Vehicle Details"
+        title="Post Details"
         subtitle="Provide information about the car you're listing"
         fields={carInfoFields}
         step="Step 1 of 4"
@@ -328,9 +324,9 @@ const CreateListing = () => {
         onInputChange={handleInputChange}
       />
       <FormSection
-        title="Seller Information"
-        subtitle="Enter your personal info"
-        fields={personalInfoFields}
+        title="Condition Details"
+        subtitle="Enter details about the condition of vehicle"
+        fields={conditionFields}
         step="Step 3 of 4"
         formData={formData}
         errors={errors}

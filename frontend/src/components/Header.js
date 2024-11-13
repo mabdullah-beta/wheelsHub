@@ -20,10 +20,10 @@ const Header = () => {
     const token = localStorage.getItem("token"); // Get token from localStorage
 
     if (token) {
-      navigate("/createListing");
+      navigate("/create");
     } else {
       // Store the current location and redirect to login page
-      navigate("/login", { state: { from: "/createListing" } });
+      navigate("/login", { state: { from: "/create" } });
     }
   };
 

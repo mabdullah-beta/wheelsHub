@@ -38,8 +38,8 @@ const AppContent = () => {
         <PageWrapper>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/createListing" element={<CreateListing />} />
-            <Route path="/viewListing/:id" element={<ViewListing />} />
+            <Route path="/create" element={<CreateListing />} />
+            <Route path="/view/:id" element={<ViewListing />} />
           </Routes>
         </PageWrapper>
       )}

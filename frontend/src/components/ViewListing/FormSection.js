@@ -6,6 +6,7 @@ import {
   Grid,
   Typography,
   Input,
+  Textarea,
   Option,
   Sheet,
   Stack,
@@ -98,7 +99,29 @@ const FormSection = ({
                     </Option>
                   ))}
                 </Select>
-              ) : (
+              ) 
+              
+              : field.type === "textarea" ? ( // Handle textarea type
+                <Textarea
+                  placeholder={field.placeholder}
+                  size="lg"
+                  variant="soft"
+                  value={formData[field.name]}
+                  onChange={(e) => onInputChange(field.name, e.target.value)}
+                  minRows={4} // Default rows if not specified
+                  sx={{
+                    "--Textarea-focusedThickness": "0",
+                    flex: 1,
+                    border: "none",
+                    outline: "none",
+                    boxShadow: "none",
+                    fontSize: "14px",
+                    bgcolor: theme.colors.backgroundColor,
+                  }}
+                />
+              )
+              
+              : (
                 <Input
                   placeholder={field.placeholder}
                   size="lg"
