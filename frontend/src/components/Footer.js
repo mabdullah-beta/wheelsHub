@@ -6,6 +6,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Divider,
 } from "@mui/joy";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import themes from "../themes";
@@ -86,10 +87,10 @@ const Footer = () => {
               alignItems: "flex-start",
             }}
           >
-            <Typography level="h6" fontWeight="bold" sx={{ mb: 1 }}>
+            <Typography level="h4" fontWeight="bold" sx={{ mb: 2 }}>
               About
             </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {aboutLinks.map((link, index) => (
                 <Link
                   key={index}
@@ -111,10 +112,10 @@ const Footer = () => {
               alignItems: "flex-start",
             }}
           >
-            <Typography level="h6" fontWeight="bold" sx={{ mb: 1 }}>
+            <Typography level="h4" fontWeight="bold" sx={{ mb: 2 }}>
               Community
             </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {communityLinks.map((link, index) => (
                 <Link
                   key={index}
@@ -136,10 +137,10 @@ const Footer = () => {
               alignItems: "flex-start",
             }}
           >
-            <Typography level="h6" fontWeight="bold" sx={{ mb: 1 }}>
+            <Typography level="h4" fontWeight="bold" sx={{ mb: 2 }}>
               Socials
             </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {socialLinks.map((link, index) => (
                 <Link
                   key={index}
@@ -159,7 +160,7 @@ const Footer = () => {
       <Box sx={{ display: { xs: "block", md: "none" } }}>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography sx={{ mb: 1 }}>About</Typography>{" "}
+            <Typography sx={{ mb: 2 }}>About</Typography>{" "}
             {/* Added margin-bottom */}
           </AccordionSummary>
           <AccordionDetails>
@@ -169,19 +170,18 @@ const Footer = () => {
                 href={link.href}
                 color="neutral"
                 underline="none"
-                sx={{ display: "block", mb: 1 }}
+                sx={{ display: "block", mb: 2 }}
               >
                 {link.label}
               </Link>
             ))}
           </AccordionDetails>
+          <Divider />
         </Accordion>
 
         <Accordion sx={{ mt: 2 }}>
-          {" "}
-          {/* Add margin-top for separation between accordions */}
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography sx={{ mb: 1 }}>Community</Typography>{" "}
+            <Typography sx={{ mb: 2 }}>Community</Typography>{" "}
             {/* Added margin-bottom */}
           </AccordionSummary>
           <AccordionDetails>
@@ -191,20 +191,33 @@ const Footer = () => {
                 href={link.href}
                 color="neutral"
                 underline="none"
-                sx={{ display: "block", mb: 1 }}
+                sx={{ display: "block", mb: 2 }}
               >
                 {link.label}
               </Link>
             ))}
           </AccordionDetails>
+          <Divider />
         </Accordion>
 
-        <Accordion sx={{ mt: 2 }}>
-          {" "}
-          {/* Add margin-top for separation between accordions */}
+        <Accordion
+          sx={{
+            mt: 2,
+            "&:hover": {
+              bgcolor: "transparent",
+              color: "inherit", // Keeps the color the same on hover
+              textDecoration: "none", // No underline or decoration on hover
+            },
+          }}
+        >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography sx={{ mb: 1 }}>Socials</Typography>{" "}
-            {/* Added margin-bottom */}
+            <Typography
+              sx={{
+                mb: 2,
+              }}
+            >
+              Socials
+            </Typography>{" "}
           </AccordionSummary>
           <AccordionDetails>
             {socialLinks.map((link, index) => (
@@ -213,12 +226,13 @@ const Footer = () => {
                 href={link.href}
                 color="neutral"
                 underline="none"
-                sx={{ display: "block", mb: 1 }}
+                sx={{ display: "block", mb: 2 }}
               >
                 {link.label}
               </Link>
             ))}
           </AccordionDetails>
+          <Divider />
         </Accordion>
       </Box>
 
@@ -234,7 +248,7 @@ const Footer = () => {
           mt: 2,
         }}
       >
-        <Typography level="body2" color="text.secondary" sx={{ mb: 2 }}>
+        <Typography level="body2" color="text.secondary">
           © 2024 WheelsHub. All rights reserved.
         </Typography>
         <Box
@@ -246,10 +260,14 @@ const Footer = () => {
           }}
         >
           <Link href="#" color="neutral" underline="none">
-            Privacy & Policy
+            <Typography level="body2" color="text.secondary">
+              Privacy & Policy
+            </Typography>
           </Link>
           <Link href="#" color="neutral" underline="none">
-            Terms & Condition
+            <Typography level="body2" color="text.secondary">
+              Terms & Condition
+            </Typography>
           </Link>
         </Box>
       </Box>
