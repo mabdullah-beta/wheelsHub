@@ -125,36 +125,42 @@ def get_deal_by_id(request, deal_id):
         seller = User.objects.get(id=deal.seller)
 
         # Init bids
-        bids = []
+        bids = []  
+
+        # Convert current user id into uuid
+        user_id_uuid = uuid.UUID(int=request.user.id)
 
         # Check if seller
-        is_seller = deal.seller == uuid.UUID(int=request.user.id) if request.user.id is not None else False
+        is_seller = deal.seller == user_id_uuid if request.user.id is not None else False
         
-        # Check if this is the listing of the current user
-        if is_seller:
+        # Get the bids
+        data = Bid.objects.filter(deal=deal.id).exclude(status='pending')
 
-            # Get the bids
-            data = Bid.objects.filter(deal=deal.id).exclude(status='pending')
+        # Resolve bid information with bidder name
+        for bid in data:
 
-            # Resolve bid information with bidder name
-            for bid in data:
+            # We will fetch all bids, but if this user is not the seller
+            # then we will only return the bids that this user has placed
+            if bid.buyer != user_id_uuid and not is_seller:
+                
+                continue
 
-                # Get user
-                buyer = User.objects.get(id=bid.buyer)
+            # Get user
+            buyer = User.objects.get(id=bid.buyer)
 
-                # Add info to bids
-                bids.append({ 
-                    
-                    "id": bid.id, 
-                    "amount": bid.amount, 
-                    "message": bid.message, 
-                    "status": bid.status, 
-                    "buyer_contact": bid.contact if bid.status == "accepted" else f"{bid.contact[0]}{'*' * (len(bid.contact) - 2)}{bid.contact[-1]}", 
-                    "buyer": bid.buyer, 
-                    "buyer_name": f"{buyer.first_name} {buyer.last_name}",
-                    "created_at": bid.created_at
-        
-                })
+            # Add info to bids
+            bids.append({ 
+                
+                "id": bid.id, 
+                "amount": bid.amount, 
+                "message": bid.message, 
+                "status": bid.status, 
+                "buyer_contact": bid.contact if bid.status == "accepted" or not is_seller else f"{bid.contact[0]}{'*' * (len(bid.contact) - 2)}{bid.contact[-1]}", 
+                "buyer": bid.buyer, 
+                "buyer_name": f"{buyer.first_name} {buyer.last_name}",
+                "created_at": bid.created_at
+    
+            })
 
         # Return json
         return Response({ "success": True, "is_seller": is_seller, "deal": serializer.data, "seller": f"{ seller.first_name } { seller.last_name }", "bids": bids })

@@ -376,106 +376,106 @@ const ViewListing = () => {
       </Box>
 
       {/* bids section here */}
-      {isSeller && (
-        <Box sx={{ mt: 5, p: 3, borderRadius: "12px", bgcolor: "white" }}>
+      <Box sx={{ mt: 5, p: 3, borderRadius: "12px", bgcolor: "white", ... newbids.length == 0 && !isSeller ? { display:  "none" } : {} }}>
 
-          {newbids && newbids.length > 0 ? (
-            <>
-            <Stack direction="row" alignItems="flex-start">
-              <Typography
-                level="h5"
-                sx={{ fontSize: "24px", fontWeight: "700", mb: 2, mr: 1 }}
-              >
-                Bids:
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: theme.colors.primary,
-                  color: "white",
-                  borderRadius: "8px",
-                  px: 1.5,
-                  py: 1,
-                  fontSize: "14px",
-                  fontWeight: "700",
-                }}
-              >
-                {String(newbids.length).padStart(2, "0")}
-              </Box>
-            </Stack>
+        {newbids && newbids.length > 0 ? (
+          <>
+          <Stack direction="row" alignItems="flex-start">
+            <Typography
+              level="h5"
+              sx={{ fontSize: "24px", fontWeight: "700", mb: 2, mr: 1 }}
+            >
+              { isSeller ? "Received Bids" : "Your Bids" }
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: theme.colors.primary,
+                color: "white",
+                borderRadius: "8px",
+                px: 1.5,
+                py: 1,
+                fontSize: "14px",
+                fontWeight: "700",
+              }}
+            >
+              {String(newbids.length).padStart(2, "0")}
+            </Box>
+          </Stack>
 
-            <Stack spacing={2}>
-              {newbids.map((bid) => (
-                <Stack
-                  key={bid.id}
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  sx={{ py: 1 }}
-                >
-                  <Stack direction="row" justifyContent="space-between">
-                    <Stack direction="row" alignItems="center" spacing={2}>
-                      
-                      <img src={`https://ui-avatars.com/api/?name=${ bid.buyer_name }`} style={{ height: 50, width: "auto", borderRadius: 80 }} />
-                
-                      <Stack spacing={0.5}>
-                        <Typography level="body-md" fontWeight="bold">
-                          {bid.buyer_name}
+          <Stack spacing={2}>
+            {newbids.map((bid) => (
+              <Stack
+                key={bid.id}
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{ py: 1 }}
+              >
+                <Stack direction="row" justifyContent="space-between">
+                  <Stack direction="row" alignItems="center" spacing={2}>
+                    
+                    <img src={`https://ui-avatars.com/api/?name=${ bid.buyer_name }`} style={{ height: 50, width: "auto", borderRadius: 80 }} />
+              
+                    <Stack spacing={0.5}>
+                      <Typography level="body-md" fontWeight="bold">
+                        {bid.buyer_name}
+                      </Typography>
+                      <Stack direction="row" spacing={2}>
+                        <Typography
+                          level="body-sm"
+                          sx={{ color: "#90A3BF" }}
+                        >
+                          {bid.message}
                         </Typography>
-                        <Stack direction="row" spacing={2}>
-                          <Typography
-                            level="body-sm"
-                            sx={{ color: "#90A3BF" }}
-                          >
-                            {bid.message}
-                          </Typography>
-                          <Typography
-                            level="body-sm"
-                            sx={{ color: "#90A3BF" }}
-                          >
-                            { 
+                        <Typography
+                          level="body-sm"
+                          sx={{ color: "#90A3BF" }}
+                        >
+                          { 
+                          
+                            bid.status === "accepted" || !isSeller ? 
                             
-                              bid.status === "placed" ? 
+                              bid.buyer_contact
                               
-                                <Typography onClick={() => handleAcceptOpenModal(bid.id)} level="body-sm" sx={{ color: "#90A3BF", display: "flex", alignItems: "center", gap: "4px", cursor: "pointer" }}>Unlock Contact <LockIcon color="#90A3BF" size="14px" /> </Typography> 
-                                
-                              : 
+                            : 
+                            
+                              <Typography onClick={() => handleAcceptOpenModal(bid.id)} level="body-sm" sx={{ color: "#90A3BF", display: "flex", alignItems: "center", gap: "4px", cursor: "pointer" }}>Unlock Contact <LockIcon color="#90A3BF" size="14px" /> </Typography> 
+
+                            }
                               
-                                bid.buyer_contact
-                                
-                              }
-                                
-                          </Typography>
-                        </Stack>
+                        </Typography>
                       </Stack>
                     </Stack>
                   </Stack>
-
-                  <Stack direction="column" alignItems="flex-end">
-                    <Typography level="h5" fontWeight="bold">
-                      ${Number(bid.amount).toLocaleString()}
-                    </Typography>
-                    <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
-                      {formatDate(bid.created_at)}
-                    </Typography>
-                  </Stack>
                 </Stack>
-              ))}
-            </Stack>
-          </>
-          ) : (
-            <Typography
-              level="body1"
-              sx={{ color: "#90A3BF", textAlign: "center" }}
-            >
-              No bids for now
-            </Typography>
-          )}
-          
-        </Box>
-      )}
+
+                <Stack direction="column" alignItems="flex-end">
+                  <Typography level="h5" fontWeight="bold">
+                    ${Number(bid.amount).toLocaleString()}
+                  </Typography>
+                  <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
+                    {formatDate(bid.created_at)}
+                  </Typography>
+                </Stack>
+              </Stack>
+            ))}
+          </Stack>
+        </>
+        ) : 
+        
+        (
+          <Typography
+            level="body1"
+            sx={{ color: "#90A3BF", textAlign: "center" }}
+          >
+            No bids for now
+          </Typography>
+        )}
+        
+      </Box>
 
       <PlaceBidModal
         open={isModalOpen}
