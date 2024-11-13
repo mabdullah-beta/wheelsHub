@@ -3,9 +3,6 @@ import { Sheet, Typography, IconButton, Box, Input, Button } from "@mui/joy";
 import { Person, Search, AddCircle } from "@mui/icons-material";
 import themes from "../themes";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { ReactComponent as Notify } from "../assets/notify.svg";
-import { ReactComponent as Like } from "../assets/likeIcon.svg";
-import { ReactComponent as Setting } from "../assets/settingsIcon.svg";
 
 const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);

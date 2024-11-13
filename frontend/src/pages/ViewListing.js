@@ -20,6 +20,8 @@ import { ReactComponent as CarIcon } from "../assets/carImage.svg";
 import theme from "../themes";
 import PlaceBidModal from "../components/UniversalComponents/PlaceBidModal";
 
+import { useNavigate, useLocation, Link } from "react-router-dom";
+
 // Reusable ProductDetailItem Component
 const ProductDetailItem = ({ label, value }) => (
   <Stack
@@ -56,7 +58,22 @@ const ViewListing = () => {
   const [sellerName, setSellerName] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpenModal = () => setIsModalOpen(true);
+  const navigate = useNavigate();
+
+  const handleOpenModal = () => {
+    
+    // If the user is not authenticated, redirect
+    const token = localStorage.getItem("token"); // Get token from localStorage
+
+    if (!token) {
+      navigate("/login", { state: { from: window.location.pathname } });
+
+      return
+    }
+
+    setIsModalOpen(true);
+  
+  }
   const handleCloseModal = () => setIsModalOpen(false);
 
   const [newbids, setNewBids] = useState([]);
@@ -98,12 +115,6 @@ const ViewListing = () => {
 
     fetchProduct();
   }, [id]);
-
-  useEffect(() => {
-    if (newProduct) {
-      console.log(newProduct);
-    }
-  }, [newProduct]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -303,7 +314,7 @@ const ViewListing = () => {
 
             <Stack direction="row" justifyContent="space-between">
               <Stack direction="row" alignItems="center" spacing={2}>
-                <img src={`https://ui-avatars.com/api/?name=${ sellerName }`} style={{ height: 50, width: "auto", borderRadius: 80 }} />
+                <img src={`https://ui-avatars.com/api/?name=${ sellerName }`} style={{ height: 45, width: "auto", borderRadius: 80 }} />
                 <Stack spacing={0.5}>
                   <Typography
                     level="body-md"
@@ -348,79 +359,82 @@ const ViewListing = () => {
       {/* bids section here */}
       {isSeller && (
         <Box sx={{ mt: 5, p: 3, borderRadius: "12px", bgcolor: "white" }}>
+
           {newbids && newbids.length > 0 ? (
             <>
-              <Stack direction="row" alignItems="flex-start">
-                <Typography
-                  level="h5"
-                  sx={{ fontSize: "24px", fontWeight: "700", mb: 2, mr: 1 }}
-                >
-                  Bids:
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: theme.colors.primary,
-                    color: "white",
-                    borderRadius: "8px",
-                    px: 1.5,
-                    py: 1,
-                    fontSize: "14px",
-                    fontWeight: "700",
-                  }}
-                >
-                  {String(newbids.length).padStart(2, "0")}
-                </Box>
-              </Stack>
+            <Stack direction="row" alignItems="flex-start">
+              <Typography
+                level="h5"
+                sx={{ fontSize: "24px", fontWeight: "700", mb: 2, mr: 1 }}
+              >
+                Bids:
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: theme.colors.primary,
+                  color: "white",
+                  borderRadius: "8px",
+                  px: 1.5,
+                  py: 1,
+                  fontSize: "14px",
+                  fontWeight: "700",
+                }}
+              >
+                {String(newbids.length).padStart(2, "0")}
+              </Box>
+            </Stack>
 
-              <Stack spacing={2}>
-                {newbids.map((bid) => (
-                  <Stack
-                    key={bid.id}
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    sx={{ py: 1 }}
-                  >
-                    <Stack direction="row" justifyContent="space-between">
-                      <Stack direction="row" alignItems="center" spacing={2}>
-                        <bid.avatar size="lg" />
-                        <Stack spacing={0.5}>
-                          <Typography level="body-md" fontWeight="bold">
-                            {bid.user}
+            <Stack spacing={2}>
+              {newbids.map((bid) => (
+                <Stack
+                  key={bid.id}
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  sx={{ py: 1 }}
+                >
+                  <Stack direction="row" justifyContent="space-between">
+                    <Stack direction="row" alignItems="center" spacing={2}>
+                      
+                      <img src={`https://ui-avatars.com/api/?name=${ bid.buyer_name }`} style={{ height: 50, width: "auto", borderRadius: 80 }} />
+                
+                      <Stack spacing={0.5}>
+                        <Typography level="body-md" fontWeight="bold">
+                          {bid.buyer_name}
+                        </Typography>
+                        <Stack direction="row" spacing={2}>
+                          <Typography
+                            level="body-sm"
+                            sx={{ color: "#90A3BF" }}
+                          >
+                            {bid.message}
                           </Typography>
-                          <Stack direction="row" spacing={2}>
-                            <Typography
-                              level="body-sm"
-                              sx={{ color: "#90A3BF" }}
-                            >
-                              {bid.role}
-                            </Typography>
-                            <Typography
-                              level="body-sm"
-                              sx={{ color: "#90A3BF" }}
-                            >
-                              {bid.phone}
-                            </Typography>
-                          </Stack>
+                          <Typography
+                            level="body-sm"
+                            sx={{ color: "#90A3BF" }}
+                          >
+                            {bid.buyer_contact}
+                          </Typography>
                         </Stack>
                       </Stack>
                     </Stack>
-
-                    <Stack direction="column" alignItems="flex-end">
-                      <Typography level="h5" fontWeight="bold">
-                        ${Number(bid.amount).toLocaleString()}
-                      </Typography>
-                      <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
-                        {bid.date}
-                      </Typography>
-                    </Stack>
                   </Stack>
-                ))}
-              </Stack>
-            </>
+
+                  <Stack direction="column" alignItems="flex-end">
+                    <Typography level="h5" fontWeight="bold">
+                      ${Number(bid.amount).toLocaleString()}
+                    </Typography>
+                    <Typography level="body-sm" sx={{ color: "#90A3BF" }}>
+                      {bid.date}
+                    </Typography>
+                  </Stack>
+                </Stack>
+              ))}
+            </Stack>
+          </>
           ) : (
             <Typography
               level="body1"
@@ -429,6 +443,7 @@ const ViewListing = () => {
               No bids for now
             </Typography>
           )}
+          
         </Box>
       )}
 

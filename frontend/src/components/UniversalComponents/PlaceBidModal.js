@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Box, Typography, Button, TextField, Input } from "@mui/joy";
+import { Modal, Box, Typography, Button, Input, Textarea } from "@mui/joy";
 import axios from "axios";
 import theme from "../../themes";
 
@@ -20,7 +20,7 @@ const PlaceBidModal = ({ open, handleClose, dealId }) => {
     try {
       // Send a POST request to create the bid with the authorization header
       const response = await axios.post(
-        `http://127.0.0.1:8000/deals/${dealId}/bids/`,
+        `http://localhost:8000/deals/${dealId}/bids/`,
         { amount, message, contact, deal: dealId },
         {
           headers: {
@@ -55,7 +55,7 @@ const PlaceBidModal = ({ open, handleClose, dealId }) => {
         sx={{
           p: 3,
           bgcolor: "background.paper",
-          borderRadius: 2,
+          borderRadius: "10px",
           maxWidth: 400,
           mx: "auto",
           mt: "20vh",
@@ -83,16 +83,17 @@ const PlaceBidModal = ({ open, handleClose, dealId }) => {
             mb: 2,
           }}
         />
-        <Input
-          placeholder="Enter your message"
+        <Textarea
+          placeholder="You can include a message to seller"
           size="lg"
           type="text"
           variant="soft"
           fullWidth
           value={message}
+          minRows={4}
           onChange={(e) => setMessage(e.target.value)} // Update state on input change
           sx={{
-            "--Input-focusedThickness": "0",
+            "--Textarea-focusedThickness": "0",
             flex: 1,
             border: "none",
             outline: "none",
