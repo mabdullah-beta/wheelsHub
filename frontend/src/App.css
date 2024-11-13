@@ -1,38 +1,61 @@
+/* Main styling for the App component */
 .App {
-  text-align: center;
+
+  text-align: center; 
+
 }
 
+/* Styling for the App logo */
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+  height: 40vmin; 
+  pointer-events: none; 
+
 }
 
+/* Media query for reduced motion preference */
 @media (prefers-reduced-motion: no-preference) {
+
+  /* If no preference for reduced motion, apply animation to the logo */
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+
+    animation: App-logo-spin infinite 20s linear; 
+
   }
+
 }
 
+/* Styling for the App header */
 .App-header {
+
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 100vh; 
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center; 
+  justify-content: center; 
+  font-size: calc(10px + 2vmin); 
+  color: white; 
+
 }
 
+/* Styling for links in the App */
 .App-link {
   color: #61dafb;
 }
 
+/* Keyframe animation for the logo spinning */
 @keyframes App-logo-spin {
+
   from {
-    transform: rotate(0deg);
+
+    transform: rotate(0deg); 
+
   }
   to {
-    transform: rotate(360deg);
+
+    transform: rotate(360deg); 
+    
   }
+
 }
