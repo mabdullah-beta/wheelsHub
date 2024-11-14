@@ -8,34 +8,35 @@ import HeroImage from "../../assets/hero.png";
 
 const HeroSection = ({ onFilterChange, onSearch }) => {
   const locations = [
-    "California",
+    "Anywhere",
+    "Stockholm",
     "Gothenburg",
-    "Florida",
-    "New York",
-    "Illinois",
+    "Malmo",
+    "Lund",
+    "Helsingborg",
   ];
   const [selectedLocation, setSelectedLocation] = useState(locations[0]);
 
   const filterConfigs = [
     {
       name: "make",
-      placeholder: "Make",
+      placeholder: "Car Maker",
       options: ["Any", "Sedan", "Coupe", "Sport", "Luxury"],
     },
     {
       name: "year",
-      placeholder: "Year Make",
+      placeholder: "Year",
       options: ["Any", "2022", "2021", "2020"],
     },
     {
-      name: "priceRange",
-      placeholder: "Price Range",
+      name: "price_min",
+      placeholder: "Min Price",
       options: ["Any", "$10,000 - $20,000", "$20,000 - $30,000"],
     },
     {
-      name: "mileage",
-      placeholder: "Mileage",
-      options: ["Any", "0 - 10,000 miles", "10,000-20,000 miles"],
+      name: "price_max",
+      placeholder: "Max Price",
+      options: ["Any", "$10,000 - $20,000", "$20,000 - $30,000"],
     },
     {
       name: "transmission",
@@ -61,7 +62,7 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
         [name]: value === "Any" ? "" : value,
       };
       if (name === "location") {
-        updatedValues["location"] = value === "Any" ? "" : value;
+        updatedValues["location"] = value === "Anywhere" ? "" : value;
       }
       return updatedValues;
     });
@@ -173,18 +174,24 @@ const HeroSection = ({ onFilterChange, onSearch }) => {
             }}
           >
             {filterConfigs.map((filter) => (
-              <CustomSelect
-                key={filter.name}
-                options={filter.options}
-                value={filterValues[filter.name]}
-                placeholder={filter.placeholder}
-                onChange={(event, value) =>
-                  handleFilterChange(filter.name, value)
-                }
-                backgroundColor="white"
-                color="black"
-                borderRadius="12px"
+
+              <Input
+              
+                key={filter.name} 
+                placeholder={filter.placeholder} 
+                value={filterValues[filter.name]} 
+                onChange={(e) => handleFilterChange(filter.name, e.target.value)} 
+                sx={{
+                  border: '1px solid rgba(195, 212, 233, 0.4)',
+                  borderRadius: '12px', 
+                  height: '44px',
+                  maxWidth: '180px',
+                  "--Input-focusedThickness": "0",
+                  outline: "none",
+                  boxShadow: "none",
+                }}
               />
+
             ))}
           </Box>
         </Box>

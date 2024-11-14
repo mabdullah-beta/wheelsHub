@@ -27,7 +27,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true); 
 
   // State to hold filter criteria
-  const [filterValues, setFilterValues] = useState({ location: "", make: "", year: "", priceRange: "", mileage: "", transmission: "", color: "" });
+  const [filterValues, setFilterValues] = useState({ location: "", make: "", year: "", price_max: "", price_min: "", transmission: "", color: "" });
 
   // Mode
   const [search, setSearchMode] = useState(false); 
